@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width-device-width, initial-scale-1.0"/>
+    <link rel="stylesheet" href="{% static 'player/css/styles.css' %}"/>
+    {% block style %}{% endblock style %}
+    <link rel="icon" href="{% static 'player/images/logo_ico.png' %}"/>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+            integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+<div class="sidebar">
+    <div class="sidebar-nav">
+        <div class="logo">
+            <a href="/">
+                <img src="{% static 'images/logo_white.png' %}" alt=""/>
+            </a>
+        </div>
+
+        <ul>
+            <li>
+                <a href="/">
+                    <span><i class="fa-solid fa-house"></i></span>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="search">
+                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sidebar-nav box2">
+        <ul>
+            <li>
+                <a href="library">
+                    <span><i class="fa-solid fa-book"></i></span>
+                    <span class="library">Your Library</span>
+                </a>
+            </li>
+            <li>
+                <div class="sidebar-scroll">
+                    <div class="create-playlist">
+                        <h4>Create your first playlist</h4>
+                        <p>It's easy, we'll help you</p>
+                        <button>Create Playlist</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="privacy">
+            <ul>
+                <li>
+                    <a href="">Legal</a>
+                    <a href="">Safety & Privacy</a>
+                    <a href="">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="">Cookies</a>
+                    <a href="">About Ads</a>
+                    <a href="">Accessibility</a>
+                </li>
+                <li>
+                    <a href="">Cookies</a>
+                </li>
+            </ul>
+        </div>
+        <div class="eng-btn">
+            <button>English</button>
+        </div>
+    </div>
+</div>
+
+<!-- .................Main Section Starts From Here................. -->
+
+<div class="main-section">
+    <div class="top-nav">
+        <div class="prev-btn">
+            <button><i class="fa-solid fa-chevron-left"></i></button>
+            <button><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="profile">
+                <div class="prof-btns">
+                    <a href="{% url 'profile' %}"><h4>{{ user }}</h4></a>
+                    <a href="{% url 'logout' %}"><p>Log out</p></a>
+                </div>
+                {% if user.profile_photo %}
+                    <a href="{% url 'profile' %}"><img src="{{ user.profile_photo.url }}"/></a>
+                {% else %}
+                    <a href="{% url 'profile' %}"><img src="{{ default_photo }}"/></a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="login-btn">
+                <button class="sign-up" onclick="window.location.href='register'">
+                    Sign Up
+                </button>
+                <button class="login" onclick="window.location.href='login'">
+                    Login
+                </button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+
+
+</html>
