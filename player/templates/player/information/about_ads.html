@@ -1,0 +1,69 @@
+{% extends 'player/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'player/css/information/about-ads.css' %}">
+    <div class="ads-container">
+        <h1>ML Music – About Ads</h1>
+        <p class="update-date">Last updated: [Date]</p>
+
+        <p>At <strong>ML Music</strong>, we use advertisements to support our platform and provide you with free access
+            to millions of songs. We strive to ensure that ads are relevant, non-intrusive, and respectful of your
+            experience. This page explains how ads work on ML Music and how you can manage your ad preferences.</p>
+
+        <div class="section">
+            <h2>1. Why Do We Show Ads?</h2>
+            <p>ML Music offers a free tier that allows users to enjoy music without a paid subscription. To keep this
+                service available, we display advertisements that help fund our operations and support artists,
+                creators, and our platform.</p>
+        </div>
+
+        <div class="section">
+            <h2>2. How Are Ads Personalized?</h2>
+            <p>We aim to make ads as relevant to you as possible. To do this, we may use:</p>
+            <ul>
+                <li>Your music preferences and listening habits.</li>
+                <li>General location (e.g., country or region).</li>
+                <li>Device and browser information.</li>
+                <li>Interaction with ads (e.g., clicks, skips).</li>
+            </ul>
+            <p><strong>We do not share personally identifiable information with advertisers.</strong></p>
+        </div>
+
+        <div class="section">
+            <h2>3. Third-Party Advertising Partners</h2>
+            <p>We collaborate with trusted third-party ad networks to deliver ads. These partners may use cookies or
+                similar technologies to measure ad performance and improve relevance. For more details, see our <a
+                        href="/cookies-policy">Cookies Policy</a>.</p>
+        </div>
+
+        <div class="section">
+            <h2>4. How to Manage Your Ad Preferences</h2>
+            <ul>
+                <li><strong>Upgrade to Premium:</strong> Subscribers of ML Music Premium enjoy an ad-free experience.
+                </li>
+                <li><strong>Adjust Your Preferences:</strong> Modify your ad settings through your account preferences.
+                </li>
+                <li><strong>Opt-Out of Personalized Ads:</strong> Some ads may be personalized based on your data. You
+                    can manage your ad choices via browser or device settings.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>5. Reporting Ad Issues</h2>
+            <p>If you encounter inappropriate or misleading ads, please report them to <a href="mailto:ads@mlmusic.com">ads@mlmusic.com</a>.
+                Your feedback helps us maintain a high-quality advertising experience.</p>
+        </div>
+
+        <div class="section">
+            <h2>6. Changes to This Policy</h2>
+            <p>We may update this policy as our advertising practices evolve. Please check this page regularly for
+                updates.</p>
+        </div>
+
+        <p class="contact-info">For further questions, contact us at <a href="mailto:support@mlmusic.com">support@mlmusic.com</a>.
+        </p>
+    </div>
+{% endblock %}

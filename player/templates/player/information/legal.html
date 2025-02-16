@@ -1,56 +1,83 @@
-{%  extends 'player/base.html'%}
+{% extends 'player/base.html' %}
 
 {% load static %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'css/legal.css' %}">
-    <h1>ML Music Legal Information</h1>
+    <link rel="stylesheet" href="{% static 'player/css/legal.css' %}">
+    <div class="legal-container">
+        <h1>ML Music Legal Information</h1>
 
-    <div class="section">
-        <h2>1. Terms of Service</h2>
-        <p>Welcome to ML Music! By using our service, you agree to comply with these Terms of Service. If you do not agree, please do not use our platform.</p>
-        <ul>
-            <li><strong>User Responsibilities:</strong> You must use ML Music only for lawful purposes and agree not to distribute unauthorized content.</li>
-            <li><strong>Account Security:</strong> You are responsible for maintaining the confidentiality of your account information.</li>
-            <li><strong>Service Modifications:</strong> We reserve the right to modify or discontinue our services at any time without prior notice.</li>
-        </ul>
+        <div class="section">
+            <h2>1. Terms of Service</h2>
+            <p>Welcome to ML Music! By using our service, you agree to comply with these Terms of Service. If you do not
+                agree, please do not use our platform.</p>
+            <ul>
+                <li><strong>User Responsibilities:</strong> You must use ML Music only for lawful purposes and agree not
+                    to
+                    distribute unauthorized content.
+                </li>
+                <li><strong>Account Security:</strong> You are responsible for maintaining the confidentiality of your
+                    account information.
+                </li>
+                <li><strong>Service Modifications:</strong> We reserve the right to modify or discontinue our services
+                    at
+                    any time without prior notice.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. Copyright Policy</h2>
+            <p>ML Music respects intellectual property rights and expects users to do the same. If you believe that any
+                content on our platform infringes your copyright, please contact us at <a
+                        href="mailto:copyright@mlmusic.com">copyright@mlmusic.com</a> with the necessary details.</p>
+        </div>
+
+        <div class="section">
+            <h2>3. Privacy Policy</h2>
+            <p>Your privacy is important to us. We collect and process personal data in accordance with our Privacy
+                Policy,
+                which outlines how we handle your information, including data collection, storage, and sharing
+                practices.</p>
+        </div>
+
+        <div class="section">
+            <h2>4. Subscription & Payments</h2>
+            <ul>
+                <li><strong>Billing:</strong> If you subscribe to our premium services, you agree to provide accurate
+                    payment details and authorize us to charge applicable fees.
+                </li>
+                <li><strong>Refund Policy:</strong> Payments are generally non-refundable except as required by law or
+                    specified in our refund policy.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>5. Content Usage & Licensing</h2>
+            <ul>
+                <li><strong>User-Generated Content:</strong> By uploading content, you grant ML Music a limited,
+                    non-exclusive license to display and distribute your content on our platform.
+                </li>
+                <li><strong>Third-Party Rights:</strong> You confirm that you have the necessary rights to share any
+                    content
+                    you upload.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>6. Limitation of Liability</h2>
+            <p>ML Music is provided "as is" without warranties of any kind. We are not liable for any direct or indirect
+                damages arising from the use of our services.</p>
+        </div>
+
+        <div class="section">
+            <h2>7. Contact Information</h2>
+            <p>For any legal inquiries, please reach out to <a href="mailto:legal@mlmusic.com">legal@mlmusic.com</a>.
+            </p>
+        </div>
     </div>
-
-    <div class="section">
-        <h2>2. Copyright Policy</h2>
-        <p>ML Music respects intellectual property rights and expects users to do the same. If you believe that any content on our platform infringes your copyright, please contact us at <a href="mailto:copyright@mlmusic.com">copyright@mlmusic.com</a> with the necessary details.</p>
-    </div>
-
-    <div class="section">
-        <h2>3. Privacy Policy</h2>
-        <p>Your privacy is important to us. We collect and process personal data in accordance with our Privacy Policy, which outlines how we handle your information, including data collection, storage, and sharing practices.</p>
-    </div>
-
-    <div class="section">
-        <h2>4. Subscription & Payments</h2>
-        <ul>
-            <li><strong>Billing:</strong> If you subscribe to our premium services, you agree to provide accurate payment details and authorize us to charge applicable fees.</li>
-            <li><strong>Refund Policy:</strong> Payments are generally non-refundable except as required by law or specified in our refund policy.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>5. Content Usage & Licensing</h2>
-        <ul>
-            <li><strong>User-Generated Content:</strong> By uploading content, you grant ML Music a limited, non-exclusive license to display and distribute your content on our platform.</li>
-            <li><strong>Third-Party Rights:</strong> You confirm that you have the necessary rights to share any content you upload.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>6. Limitation of Liability</h2>
-        <p>ML Music is provided "as is" without warranties of any kind. We are not liable for any direct or indirect damages arising from the use of our services.</p>
-    </div>
-
-    <div class="section">
-        <h2>7. Contact Information</h2>
-        <p>For any legal inquiries, please reach out to <a href="mailto:legal@mlmusic.com">legal@mlmusic.com</a>.</p>
-    </div>
-
-    <p><em>These terms are subject to change. Please review this page regularly for updates.</em></p>
 {% endblock %}
+
+

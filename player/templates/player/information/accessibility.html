@@ -1,0 +1,61 @@
+{% extends 'player/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'player/css/information/accessibility.css' %}">
+
+    <div class="accessibility-container">
+        <h1>ML Music – Accessibility</h1>
+        <p class="update-date">Last updated: [Date]</p>
+
+        <p>At <strong>ML Music</strong>, we believe that music should be accessible to everyone, regardless of ability.
+            Our goal is to create an inclusive platform where all users can enjoy their favorite music seamlessly. This
+            page outlines our commitment to accessibility and the steps we are taking to improve the user experience for
+            individuals with disabilities.</p>
+
+        <div class="section">
+            <h2>1. Our Commitment to Accessibility</h2>
+            <ul>
+                <li>Providing an <strong>easy-to-navigate interface</strong> for all users.</li>
+                <li>Supporting <strong>assistive technologies</strong> like screen readers and keyboard navigation.</li>
+                <li>Ensuring <strong>high contrast modes</strong> and customizable visual settings.</li>
+                <li>Offering <strong>captioning and lyrics</strong> for a more inclusive music experience.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. Features for Accessibility</h2>
+            <ul>
+                <li><strong>Keyboard Navigation:</strong> Navigate ML Music using tab and arrow keys.</li>
+                <li><strong>Screen Reader Compatibility:</strong> ML Music supports popular screen readers.</li>
+                <li><strong>High Contrast & Color Customization:</strong> Adjust contrast settings.</li>
+                <li><strong>Subtitles & Lyrics:</strong> Enjoy synchronized lyrics and captions where available.</li>
+                <li><strong>Accessible Audio Controls:</strong> Easily adjust volume, playback speed, and equalizer
+                    settings.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>3. Ongoing Improvements</h2>
+            <p>Accessibility is an ongoing effort, and we are actively working to:</p>
+            <ul>
+                <li>Expand <strong>AI-generated audio descriptions</strong> for better usability.</li>
+                <li>Improve <strong>voice command support</strong> for hands-free control.</li>
+                <li>Enhance <strong>mobile accessibility</strong> across all devices.</li>
+                <li>Continuously <strong>gather user feedback</strong> to improve ML Music for everyone.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>4. Need Help? Contact Us!</h2>
+            <p>If you encounter any accessibility issues or have suggestions for improvement, please contact us:</p>
+            <p>📧 <strong>Email:</strong> <a href="mailto:accessibility@mlmusic.com">accessibility@mlmusic.com</a></p>
+            <p>📞 <strong>Support Line:</strong> +1-800-MLMUSIC</p>
+        </div>
+
+        <p class="footer-text">We value your feedback and are committed to making ML Music a platform that everyone can
+            enjoy.</p>
+    </div>
+{% endblock %}

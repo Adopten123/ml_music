@@ -5,12 +5,12 @@ body {
     line-height: 1.6;
 }
 
-.legal-container {
+.accessibility-container {
     max-width: 850px;
     margin: 20px auto;
     padding: 20px;
     background: #1e1e1e;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
@@ -45,7 +45,7 @@ ul {
     margin-left: 20px;
 }
 
-.contact-info {
+.footer-text {
     text-align: center;
     font-weight: bold;
     color: #f4a261;

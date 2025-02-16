@@ -1,11 +1,11 @@
 body {
     background-color: #121212;
     color: #ffffff;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     line-height: 1.6;
 }
 
-.legal-container {
+.privacy-container {
     max-width: 850px;
     margin: 20px auto;
     padding: 20px;
