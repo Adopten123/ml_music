@@ -98,29 +98,32 @@ body{
     background: #5e00ca;
 }
 
-.privacy{
+.privacy {
     margin-top: auto;
 }
-.privacy ul li a{
+
+.privacy ul {
+    list-style: none;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+}
+
+.privacy ul li {
+    padding: 0 6px;
+}
+
+.privacy ul li a {
     text-decoration: none;
     color: #575656;
     font-size: 12px;
-    font-weight: 600;
-    margin: 0 6px;
+    font-weight: 900;
 }
-.privacy ul li a:hover{
+
+.privacy ul li a:hover {
     text-decoration: underline;
-    color: #5e00ca
-}
-
-.privacy ul{
-    list-style: none;
-    margin-top: 10px;
-}
-
-.privacy ul li{
-    padding: 0 12px;
-    padding-bottom: 8px;
+    color: #5e00ca;
 }
 
 .eng-btn{
@@ -258,3 +261,4 @@ footer {
         font-size: 0.8rem;
     }
 }
+
