@@ -59,18 +59,8 @@
                 </div>
             </li>
         </ul>
-        <div class="privacy">
-            <ul>
-                {% for b in lowermenu_buttons %}
-                    <li>
-                        <a href="{% url 'info' b.url %}">{{ b.name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="eng-btn">
-            <button>English</button>
-        </div>
+
+        {% include 'player/menu/lower_menu.html' %}
     </div>
 </div>
 
@@ -82,19 +72,6 @@
             <button><i class="fa-solid fa-chevron-left"></i></button>
             <button><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-        {% if user.is_authenticated %}
-            <div class="profile">
-                <div class="prof-btns">
-                    <a href="{% url 'profile' %}"><h4>{{ user }}</h4></a>
-                    <a href="{% url 'logout' %}"><p>Log out</p></a>
-                </div>
-                {% if user.profile_photo %}
-                    <a href="{% url 'profile' %}"><img src="{{ user.profile_photo.url }}"/></a>
-                {% else %}
-                    <a href="{% url 'profile' %}"><img src="{{ default_photo }}"/></a>
-                {% endif %}
-            </div>
-        {% else %}
             <div class="login-btn">
                 <button class="sign-up" onclick="window.location.href='register'">
                     Sign Up
@@ -103,7 +80,6 @@
                     Login
                 </button>
             </div>
-        {% endif %}
     </div>
 
     {% block content %}{% endblock %}

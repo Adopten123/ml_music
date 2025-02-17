@@ -1,0 +1,22 @@
+{% extends 'player/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'player/css/menu/artist_card.css' %}">
+
+    <div class="artist-card">
+        <div class="artist-image">
+            <img src="{{ artist.logo.url }}" alt="{{ artist.name }}">
+        </div>
+        <div class="artist-info">
+            {% if artist.is_confirmed %}
+                <span class="verified"><i class="fa-solid fa-check-circle"></i> Confirmed Artist</span>
+            {% endif %}
+            <h2>{{ artist.name }}</h2>
+            <p>{{ artist.sub_count }} {% if artist.sub_count == 1 %} subscriber {% else %} subscribers {% endif %}</p>
+            <button class="follow-btn">Subscribe</button>
+        </div>
+    </div>
+
+{% endblock %}

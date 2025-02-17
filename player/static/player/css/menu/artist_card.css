@@ -1,0 +1,57 @@
+.artist-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgb(134, 134, 134);
+    padding: 20px;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.artist-card:hover {
+    background: rgba(179, 112, 255, 0.52);
+}
+
+.artist-image img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.artist-info h2 {
+    margin: 0;
+    font-size: 48px;
+    color: #fff;
+}
+
+.artist-info p {
+    margin-left: 10px;
+    color: #bbb;
+}
+
+.verified {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #5e00ca;
+    font-weight: bold;
+}
+
+.follow-btn {
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    background: #5e00ca;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.follow-btn:hover {
+    background: #17a246;
+}

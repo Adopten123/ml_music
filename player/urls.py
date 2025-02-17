@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
@@ -6,4 +8,8 @@ urlpatterns = [
     path('genres/<slug:genre_slug>/', views.genres, name='main_genres'),
     path('genres/<slug:genre_slug>/', views.genres_by_slug, name='main_genres_by_slug'),
     path('information/<slug:info_slug>/', views.information, name='info'),
+    path('artists/<slug:artist_slug>/', views.artist_card, name='main_artists'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

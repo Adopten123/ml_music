@@ -1,18 +1,19 @@
 body {
     background-color: #121212;
     color: #ffffff;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
 }
 
-.legal-container {
+.container {
     max-width: 850px;
     margin: 20px auto;
     padding: 20px;
     background: #1e1e1e;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
+
 
 h1 {
     text-align: center;
@@ -33,30 +34,30 @@ h2 {
 }
 
 .section {
-    margin-bottom: 20px;
+    margin-top: auto;
     padding: 15px;
     background: #222;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
 }
 
-ul {
+.section ul {
     list-style-type: square;
     margin-left: 20px;
 }
 
-.contact-info {
+.footer-text {
     text-align: center;
     font-weight: bold;
     color: #f4a261;
     margin-top: 20px;
 }
 
-a {
+.section a {
     color: #f4a261;
     text-decoration: none;
 }
 
-a:hover {
+.section a:hover {
     text-decoration: underline;
 }
