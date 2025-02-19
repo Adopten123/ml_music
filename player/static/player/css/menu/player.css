@@ -1,0 +1,191 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: white;
+}
+
+.music-player {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(28, 28, 28, 0.70);
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 20px auto;
+    max-width: 1000px;
+    max-height: 120px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.cover img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.no-logo {
+    width: 80px;
+    height: 80px;
+    background-color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.track-info {
+    flex: 1;
+    margin-left: 10px;
+    text-align: left;
+}
+
+.track-title {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.track-author {
+    margin: 3px 0;
+    font-size: 14px;
+    color: #bbb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.track-genre {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Контейнер для трекбара и кнопок управления */
+.controls-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 600px;
+    margin: 20px auto;
+}
+
+/* Обертка для трекбара и кнопок */
+.controls-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Трекбар */
+.progress-bar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.controls {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-70%, 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #5e00ca;
+    width: 0%;
+    border-radius: 6px;
+    transition: width 0.1s ease;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 12px;
+    background-color: #444;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.time-display {
+    font-size: 14px;
+    color: #fff;
+    min-width: 40px;
+    text-align: center;
+}
+
+.player-btn {
+    background-color: #444;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.player-btn:hover {
+    background-color: #5e00ca;
+}
+
+.player-btn.disabled {
+    background-color: #222;
+    color: #555;
+    cursor: not-allowed;
+}
+
+.volume-controls {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    top: 0%;
+    left: 50%;
+    transform: translate(-80%, 6%);
+}
+
+#volume-slider {
+    width: 100px;
+    cursor: pointer;
+    background-color: #444;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    height: 8px;
+}
+
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #5e00ca;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+#volume-slider::-moz-range-thumb {
+    background-color: #5e00ca;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}

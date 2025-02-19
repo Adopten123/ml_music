@@ -8,7 +8,8 @@ urlpatterns = [
     path('genres/<slug:genre_slug>/', views.genres, name='main_genres'),
     path('genres/<slug:genre_slug>/', views.genres_by_slug, name='main_genres_by_slug'),
     path('information/<slug:info_slug>/', views.information, name='info'),
-    path('artists/<slug:artist_slug>/', views.artist_card, name='main_artists'),
+    path('artists/<slug:artist_slug>/', views.artist_card, name='artists'),
+    path('artists/<slug:artist_slug>/<slug:album_slug>', views.show_album, name='show_album'),
 ]
 
 if settings.DEBUG:

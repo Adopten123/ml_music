@@ -17,8 +17,8 @@ body {
 
 h1 {
     text-align: center;
-    color: #f4a261;
-    margin-bottom: 10px;
+    margin-top: auto;
+    color: #9517ff;
 }
 
 .update-date {
@@ -28,9 +28,8 @@ h1 {
 }
 
 h2 {
-    color: #e76f51;
-    border-bottom: 2px solid #e76f51;
-    padding-bottom: 5px;
+    color: #a227f8;
+    border-bottom: 2px solid #a227f8;
 }
 
 .section {
@@ -49,12 +48,12 @@ h2 {
 .footer-text {
     text-align: center;
     font-weight: bold;
-    color: #f4a261;
+    color: #a227f8;
     margin-top: 20px;
 }
 
 .section a {
-    color: #f4a261;
+    color: #a227f8;
     text-decoration: none;
 }
 

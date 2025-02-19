@@ -1,5 +1,69 @@
-{%  extends 'player/base.html'%}
+{% extends 'player/base.html' %}
+
+{% load static %}
 
 {% block content %}
-    <h1>Main Page</h1>
+
+
+    <link rel="stylesheet" href="{% static 'player/css/menu/playlists.css' %}">
+    <div class="music-container">
+
+        {% for genre, playlists in playlists_by_genre.items %}
+            <div class="genre-section">
+                <h2>{{ genre }}</h2>
+                {% for playlist in playlists %}
+                    <div class="track">
+                        <a href="{% url 'show_playlist' playlist.id %}">
+                            <img src="{{ playlist.logo.url }}" alt="{{ playlist.name }}">
+                        </a>
+                        <div class="track-name">{{ playlist.name }}</div>
+                        <div class="track-author">{{ playlist.author }}</div>
+                    </div>
+                {% empty %}
+                    <p>No playlists available in this genre.</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div class="genre-section">
+            <h2>Popular in Russia</h2>
+            <div class="tracks">
+                {% for album in albums %}
+                    <div class="track">
+                        <a href="{% url 'show_album' album.main_author.slug album.slug %}">
+                            <img src="{{ album.logo.url }}" alt="{{ album.name }}">
+                        </a>
+                        <div class="track-name">{{ album.name }}</div>
+                        <div class="track-author">{{ album.main_author.name }}</div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+
+        {% for genre, tracks in tracks_by_genre.items %}
+            <div class="genre-section">
+                <h2>{{ genre }}</h2>
+                <div class="tracks">
+                    {% for track in tracks %}
+                        <div class="track"
+                             data-src="{{ track.mp3.url }}"
+                             data-logo="{{ track.logo.url }}"
+                             data-name="{{ track.name }}"
+                             data-author="{{ track.main_author }}">
+                            <img src="{{ track.logo.url }}" alt="{{ track.name }}">
+                            <div class="track-name">{{ track.name }}</div>
+                            <div class="track-author">{{ track.main_author }}</div>
+                        </div>
+
+
+                    {% empty %}
+                        <p>No tracks available in this genre.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
 {% endblock %}

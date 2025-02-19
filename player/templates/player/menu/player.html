@@ -1,0 +1,94 @@
+{% load static %}
+
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelementplayer.min.css" rel="stylesheet"/>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+
+
+<div class="player-container">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="{% static 'player/css/menu/player.css' %}">
+
+    {% for track in page_obj %}
+        <div class="music-player">
+            <!-- Лого трека -->
+            <div class="cover">
+                <img id="track-logo" src="{{ page_obj.0.logo.url }}" alt="Обложка {{ page_obj.0.name }}">
+            </div>
+
+            <!-- Информация о треке -->
+            <div class="track-info">
+                <h1 id="track-title" class="track-title">{{ page_obj.0.name }}</h1>
+                <h3 id="track-author" class="track-author">{{ page_obj.0.main_author.name }}</h3>
+            </div>
+
+            <!-- Управление треком и трекпад -->
+            <div class="controls-section">
+                <!-- Управление треком -->
+                <div class="controls">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="player-btn">
+                            <i class="fa fa-step-backward"></i>
+                        </a>
+                    {% else %}
+                        <span class="player-btn disabled">
+                        <i class="fa fa-step-backward"></i>
+                    </span>
+                    {% endif %}
+
+                    <button class="player-btn" id="play-pause-btn" onclick="togglePlayPause()">
+                        <i class="fa fa-play" id="play-icon"></i>
+                    </button>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="player-btn">
+                            <i class="fa fa-step-forward"></i>
+                        </a>
+                    {% else %}
+                        <span class="player-btn disabled">
+                        <i class="fa fa-step-forward"></i>
+                     </span>
+                    {% endif %}
+                </div>
+                <!-- Прогресс-бар -->
+                <div class="progress-bar-container">
+                    <span id="current-time" class="time-display">0:00</span> <!-- Текущее время -->
+                    <div class="progress-bar" onclick="setProgress(event)">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    <span id="duration" class="time-display">0:00</span> <!-- Общая длительность -->
+                </div>
+                <!-- Кнопки управления громкостью -->
+                <div class="volume-controls">
+                    <button class="player-btn" id="volume-down-btn">
+                        <i class="fa fa-volume-down"></i>
+                    </button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+                    <button class="player-btn" id="volume-up-btn">
+                        <i class="fa fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Скрытый плеер -->
+        <audio id="audio-player">
+            {% if track.mp3 %}
+                <source src="{{ track.mp3.url }}" type="audio/mp3">
+            {% elif track.mp3_link %}
+                <source src="{{ track.mp3_link }}" type="audio/mp3">
+            {% else %}
+                Ваш браузер не поддерживает аудио.
+            {% endif %}
+        </audio>
+    {% endfor %}
+
+    <!-- Подключение скрипта -->
+    <script src="{% static 'player/js/menu/player.js' %}"></script>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelement-and-player.min.js"></script>

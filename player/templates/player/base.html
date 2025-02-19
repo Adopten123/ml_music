@@ -17,6 +17,7 @@
     <title>{{ title|default:"ML Music" }}</title>
 </head>
 <body>
+
 <div class="sidebar">
     <div class="sidebar-nav">
         <div class="logo">
@@ -72,19 +73,19 @@
             <button><i class="fa-solid fa-chevron-left"></i></button>
             <button><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-            <div class="login-btn">
-                <button class="sign-up" onclick="window.location.href='register'">
-                    Sign Up
-                </button>
-                <button class="login" onclick="window.location.href='login'">
-                    Login
-                </button>
-            </div>
+        <div class="login-btn">
+            <button class="sign-up" onclick="window.location.href='register'">
+                Sign Up
+            </button>
+            <button class="login" onclick="window.location.href='login'">
+                Login
+            </button>
+        </div>
     </div>
 
     {% block content %}{% endblock %}
 </div>
-
+<footer>{% include 'player/menu/player.html' %}</footer>
 </body>
 
 

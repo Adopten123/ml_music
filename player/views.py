@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
 from django.template.loader import render_to_string
+
 from . import data_for_tests
-from .models import Artist
+from .models import Artist, Track, Genre, Album
 
 
 # Create your views here.
@@ -10,7 +12,19 @@ from .models import Artist
 
 #main page views
 def index(request):
+    paginator = Paginator(Track.objects.all(), 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    genres = Genre.objects.all()
+    tracks_by_genre = {genre: Track.objects.filter(genre=genre, is_published=Track.Status.PUBLISHED) for genre
+                       in genres}
+    albums = Album.objects.all()
+
     data = {
+        'albums': albums,
+        'tracks_by_genre': tracks_by_genre,
+        'page_obj': page_obj,
     }#HttpRequest
     return render(request, 'player/index.html', data)
 #genres main page views
@@ -30,16 +44,28 @@ def information(request, info_slug):
     }
     return render(request, f"player/information/{info_slug}.html", data)
 
-def page_not_found(request, exception):
-    return HttpResponseNotFound(f"<h1>Page not found</h1>")
-
 def artist_card(request, artist_slug):
-    queryset = Artist.objects.filter(slug=artist_slug)
-
-    if not queryset.exists():
-        return page_not_found(request, artist_slug)
+    artist = get_object_or_404(Artist, slug=artist_slug)
 
     data = {
-        'artist': queryset.first(),
+        'artist': artist,
     }
     return render(request, 'player/artist_card.html', data)
+
+def show_album(request, artist_slug, album_slug):
+    album = get_object_or_404(Album, main_author__slug=artist_slug, slug=album_slug)
+    tracks = album.tracks.all()
+
+    paginator = Paginator(tracks, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    data = {
+        'album': album,
+        'tracks': tracks,
+        'page_obj': page_obj,
+    }
+    return render(request, 'player/album_page.html', data)
+
+def page_not_found(request, exception):
+    return HttpResponseNotFound(f"<h1>Page not found</h1>")
