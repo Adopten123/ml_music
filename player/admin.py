@@ -1,5 +1,6 @@
+"""Module with settings of admin-panel"""
+
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from .models import Artist, Genre, Track, Album
 
 admin.site.register(Artist)

@@ -1,23 +1,28 @@
+"""Models of Player"""
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 # Create your models here.
 
-#Class of Music Genre
 class Genre(models.Model):
+    """Class of Music Genre"""
     name = models.CharField(max_length=128, db_index=True)
     slug = models.SlugField(max_length=256, unique=True)
 
-    def __str__(self):
-        return self.name
+    # Models Managers
+    objects = models.Manager()
 
-#Class-manager selects confirmed performers
-class ConfirmedManager(models.Manager):
+    def __str__(self):
+        return f"{self.name}"
+
+class ConfirmedManager(models.Manager): # pylint: disable=R0903
+    """Class-manager selects confirmed performers"""
     def get_queryset(self):
+        """Function for getting confirmed authors"""
         return super().get_queryset().filter(is_confirmed=True)
 
-#Class of Music Artist
 class Artist(models.Model):
+    """Class of Music Artist"""
     name = models.CharField(max_length=64) # artist name
     slug = models.SlugField(max_length=64, unique=True) # artist slug for artist page
     logo = models.ImageField(upload_to='artists/',blank=False, null=True) # logo of artist
@@ -30,26 +35,30 @@ class Artist(models.Model):
     confirmed = ConfirmedManager()
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
     def get_absolute_url(self):
+        """return url for artist page"""
         return reverse('artists', kwargs={'slug': self.slug})
 
-#Class-manager selects published tracks
-class TrackPublishedManager(models.Manager):
+class TrackPublishedManager(models.Manager): # pylint: disable=R0903
+    """Class-manager selects published tracks"""
     def get_queryset(self):
-        return super().get_queryset().filter(is_published=Track.STATUS.PUBLISHED)
+        """Function for getting published tracks"""
+        return super().get_queryset().filter(is_published=Track.STATUS.PUBLISHED) # pylint: disable=E1101
 
 class Track(models.Model):
+    """Class of Music Track"""
 
-    class Status(models.IntegerChoices):
+    class Status(models.IntegerChoices): # pylint: disable=R0901
+        """Choices for track status"""
         UNRELEASED = 0, 'НЕОПУБЛИКОВАННЫЙ'
         PUBLISHED = 1, 'ОПУБЛИКОВАННЫЙ'
 
 
     name = models.CharField(max_length=128) # track-name
     main_author = models.ForeignKey(Artist, on_delete=models.PROTECT) # the main author of track
-    featured_authors = models.ManyToManyField(Artist, related_name='featured_artists', blank=True)  # the featured artists
+    featured_authors = models.ManyToManyField(Artist, related_name='featured_artists', blank=True)
     genre = models.ForeignKey(Genre, on_delete=models.PROTECT)  # genre of track
     publication_time = models.DateTimeField(default=timezone.now)
 
@@ -57,11 +66,11 @@ class Track(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
 
-    logo = models.ImageField(upload_to=f"tracks_logo/", blank=False, null=True) # logo of track
-    mp3 = models.FileField(upload_to=f"tracks/", blank=False, null=True) # mp3 of track
+    logo = models.ImageField(upload_to="tracks_logo/", blank=False, null=True) # logo of track
+    mp3 = models.FileField(upload_to="tracks/", blank=False, null=True) # mp3 of track
     lyrics = models.TextField(blank=True, null=True)
     duration = models.CharField(default=0, max_length=32)
-    is_published = models.BooleanField(choices=Status.choices, default=Status.PUBLISHED)  # status публикации трека
+    is_published = models.BooleanField(choices=Status.choices, default=Status.PUBLISHED)
 
     # Models Managers
     objects = models.Manager()
@@ -70,20 +79,23 @@ class Track(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-    class Meta:
+    class Meta: # pylint: disable=R0903
+        """Ordering params"""
         ordering = ['id']
         indexes = [
             models.Index(fields=['id']),  # order-by-id
         ]
 
-#Class-manager selects published albums
-class AlbumPublishedManager(models.Manager):
+class AlbumPublishedManager(models.Manager): # pylint: disable=R0903
+    """Class-manager selects published albums"""
     def get_queryset(self):
-        return super().get_queryset().filter(is_published=Album.STATUS.PUBLISHED)
+        """Function for getting published albums"""
+        return super().get_queryset().filter(is_published=Album.STATUS.PUBLISHED) # pylint: disable=E1101
 
 class Album(models.Model):
-
-    class Status(models.IntegerChoices):
+    """Class of Music Album"""
+    class Status(models.IntegerChoices): # pylint: disable=R0901
+        """Choices for album status"""
         UNRELEASED = 0, 'НЕОПУБЛИКОВАННЫЙ'
         PUBLISHED = 1, 'ОПУБЛИКОВАННЫЙ'
 
@@ -98,7 +110,7 @@ class Album(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
 
-    logo = models.ImageField(upload_to=f"playlists/", blank=False, null=True)
+    logo = models.ImageField(upload_to="playlists/", blank=False, null=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.PUBLISHED)
 
     # Models Managers
@@ -108,7 +120,8 @@ class Album(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-    class Meta:
+    class Meta: # pylint: disable=R0903
+        """Ordering params"""
         ordering = ['-time_created']
         indexes = [
             models.Index(fields=['-time_created']),  # order-by-time-of-publication
