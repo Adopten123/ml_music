@@ -7,7 +7,7 @@ from . import data_for_tests
 from .models import Artist, Track, Genre, Album
 
 def index(request):
-    """Main Page views"""
+    """Main Page view"""
     paginator = Paginator(Track.objects.all(), 1)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -25,11 +25,11 @@ def index(request):
     return render(request, 'player/index.html', data)
 
 def genres(request): # pylint: disable=W0613
-    """Genres Page views"""
+    """Genres Page view"""
     return HttpResponse("<h1>Genres page</h1>")
 
 def genres_by_slug(request, genre_slug): # pylint: disable=W0613
-    """Genre Page views"""
+    """Genre Page view"""
     return HttpResponse(f"<h1>Genres page</h1> <p> Genre: {genre_slug} </p>")
 
 def information(request, info_slug):
@@ -43,7 +43,7 @@ def information(request, info_slug):
     return render(request, f"player/information/{info_slug}.html", data)
 
 def artist_card(request, artist_slug):
-    """Artists Page views"""
+    """Artists Page view"""
     artist = get_object_or_404(Artist, slug=artist_slug)
 
     data = {
@@ -52,7 +52,7 @@ def artist_card(request, artist_slug):
     return render(request, 'player/artist_card.html', data)
 
 def show_album(request, artist_slug, album_slug):
-    """Album Page views"""
+    """Album Page view"""
     album = get_object_or_404(Album, main_author__slug=artist_slug, slug=album_slug)
     tracks = album.tracks.all()
 
@@ -67,6 +67,28 @@ def show_album(request, artist_slug, album_slug):
     }
     return render(request, 'player/album_page.html', data)
 
+def show_search_page(request):
+    return render(request, 'player/search_page.html')
+
+def search(request):
+    """Search Page view"""
+    query = request.GET.get('query', '').strip()
+
+    tracks = Track.objects.filter(name__icontains=query) | Track.objects.filter(main_author__name__icontains=query)
+
+    paginator = Paginator(tracks, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'tracks': tracks,
+        'marker': 'search_page',
+        'page_obj': page_obj,
+    }
+
+    return render(request, 'player/search_page.html', context)
+
 def page_not_found(request, exception): # pylint: disable=W0613
     """Error Page Views"""
     return HttpResponseNotFound("<h1>Page not found</h1>")
+

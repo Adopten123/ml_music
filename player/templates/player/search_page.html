@@ -1,0 +1,38 @@
+{% extends 'player/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'player/css/search_page.css' %}">
+    <link rel="stylesheet" href="{% static 'player/css/menu/playlists.css' %}">
+    <div class="container">
+        <main>
+            <form id="search-form" class="search-container" method="get" action="{% url 'search_tracks' %}">
+                <input type="text" id="search-input" name="query" placeholder="Enter track name" required>
+                <button type="submit" class="search-button">
+                    <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search">
+                </button>
+            </form>
+        </main>
+
+
+        <div class="tracks">
+            {% for track in tracks %}
+
+                <div class="track"
+                     data-src="{{ track.mp3.url }}"
+                     data-logo="{{ track.logo.url }}"
+                     data-name="{{ track.name }}"
+                     data-author="{{ track.main_author }}">
+                    <img src="{{ track.logo.url }}" alt="{{ track.name }}">
+                    <div class="track-name">{{ track.name }}</div>
+                    <div class="track-author">{{ track.main_author }}</div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
