@@ -39,13 +39,13 @@ class Artist(models.Model):
 
     def get_absolute_url(self):
         """return url for artist page"""
-        return reverse('artists', kwargs={'slug': self.slug})
+        return reverse('artist', kwargs={'artist_slug': self.slug})
 
 class TrackPublishedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects published tracks"""
     def get_queryset(self):
         """Function for getting published tracks"""
-        return super().get_queryset().filter(is_published=Track.STATUS.PUBLISHED) # pylint: disable=E1101
+        return super().get_queryset().filter(is_published=Track.Status.PUBLISHED) # pylint: disable=E1101
 
 class Track(models.Model):
     """Class of Music Track"""
@@ -71,6 +71,8 @@ class Track(models.Model):
     lyrics = models.TextField(blank=True, null=True)
     duration = models.CharField(default=0, max_length=32)
     is_published = models.BooleanField(choices=Status.choices, default=Status.PUBLISHED)
+
+    play_count = models.IntegerField(default=0)
 
     # Models Managers
     objects = models.Manager()

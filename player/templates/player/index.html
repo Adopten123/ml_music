@@ -53,7 +53,7 @@
                              data-author="{{ track.main_author }}">
                             <img src="{{ track.logo.url }}" alt="{{ track.name }}">
                             <div class="track-name">{{ track.name }}</div>
-                            <div class="track-author">{{ track.main_author }}</div>
+                            <div class="track-author"><a href="{{ track.main_author.get_absolute_url }}">{{ track.main_author }}</a></div>
                         </div>
 
 

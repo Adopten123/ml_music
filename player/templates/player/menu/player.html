@@ -22,7 +22,7 @@
             <!-- Информация о треке -->
             <div class="track-info">
                 <h1 id="track-title" class="track-title">{{ page_obj.0.name }}</h1>
-                <h3 id="track-author" class="track-author">{{ page_obj.0.main_author.name }}</h3>
+                <h3 id="track-author" class="track-author"><a href="{{ page_obj.0.main_author.get_absolute_url }}">{{ page_obj.0.main_author.name }}</a></h3>
             </div>
 
             <!-- Управление треком и трекпад -->

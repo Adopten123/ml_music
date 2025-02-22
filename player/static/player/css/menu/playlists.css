@@ -56,6 +56,15 @@
     margin-bottom: 10px;
 }
 
+.track-author a{
+    all: unset; /* Убирает все стандартные стили */
+    cursor: pointer; /* Делаем курсор указателем */
+}
+
+.track-author a:hover {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+}
+
 .track:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 15px rgb(162, 39, 248);
@@ -84,3 +93,4 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.1);
 }
+

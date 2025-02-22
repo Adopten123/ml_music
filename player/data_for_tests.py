@@ -1,4 +1,5 @@
 """ module with debug functions """
+from django.core.paginator import Paginator
 
 lowermenu_buttons = [
     {'name': 'Legal', 'url': 'legal'},
@@ -12,3 +13,8 @@ lowermenu_buttons = [
 def get_title_by_infoslug(info_slug):
     """ При помощи url в словаре lower_buttons ищет name"""
     return next((item['name'] for item in lowermenu_buttons if item['url'] == info_slug), None)
+
+def get_page_obj(request, tracks):
+    paginator = Paginator(tracks, 1)
+    page_number = request.GET.get('page')
+    return paginator.get_page(page_number)

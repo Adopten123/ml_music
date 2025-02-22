@@ -124,3 +124,21 @@ body {
 .play-icon button:hover {
     transform: scale(1.1);
 }
+
+.playlist-info a{
+    all: unset;
+    cursor: pointer;
+}
+
+.playlist-info a:hover {
+    text-decoration: underline;
+}
+
+.track-info a{
+    all: unset;
+    cursor: pointer;
+}
+
+.track-info a:hover {
+    text-decoration: underline;
+}

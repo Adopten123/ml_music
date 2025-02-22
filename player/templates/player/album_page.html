@@ -11,7 +11,7 @@
     </div>
     <div class="playlist-info">
         <h1>{{ album.name }}</h1>
-        <p>By {{ album.main_author }}</p>
+        <p>By <a href="{{ album.main_author.get_absolute_url }}"> {{ album.main_author }}</a></p>
     </div>
 </div>
 
@@ -31,7 +31,7 @@
             </div>
             <div class="track-info">
                 <p class="track-name">{{ track.name }}</p>
-                <p class="track-artist">{{ track.main_author }}</p>
+                <p class="track-artist"> <a href="{{ track.main_author.get_absolute_url }}">{{ track.main_author }}</a></p>
             </div>
             <p class="track-duration">{{ track.duration }}</p>
         </div>

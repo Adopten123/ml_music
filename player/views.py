@@ -8,9 +8,6 @@ from .models import Artist, Track, Genre, Album
 
 def index(request):
     """Main Page view"""
-    paginator = Paginator(Track.objects.all(), 1)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
 
     genres_arr = Genre.objects.all()
     tracks_by_genre = {genre: Track.objects
@@ -20,8 +17,8 @@ def index(request):
     data = {
         'albums': albums,
         'tracks_by_genre': tracks_by_genre,
-        'page_obj': page_obj,
-    }#HttpRequest
+        'page_obj': data_for_tests.get_page_obj(request, Track.published.all()),
+    }
     return render(request, 'player/index.html', data)
 
 def genres(request): # pylint: disable=W0613
@@ -46,8 +43,12 @@ def artist_card(request, artist_slug):
     """Artists Page view"""
     artist = get_object_or_404(Artist, slug=artist_slug)
 
+    top5_tracks = Track.published.filter(main_author=artist).order_by('-play_count')[:5]
+
     data = {
         'artist': artist,
+        'top5_tracks': top5_tracks,
+        'page_obj': data_for_tests.get_page_obj(request, Track.published.all()),
     }
     return render(request, 'player/artist_card.html', data)
 
@@ -56,14 +57,10 @@ def show_album(request, artist_slug, album_slug):
     album = get_object_or_404(Album, main_author__slug=artist_slug, slug=album_slug)
     tracks = album.tracks.all()
 
-    paginator = Paginator(tracks, 1)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
     data = {
         'album': album,
         'tracks': tracks,
-        'page_obj': page_obj,
+        'page_obj': data_for_tests.get_page_obj(request, tracks),
     }
     return render(request, 'player/album_page.html', data)
 
@@ -76,14 +73,10 @@ def search(request):
 
     tracks = Track.objects.filter(name__icontains=query) | Track.objects.filter(main_author__name__icontains=query)
 
-    paginator = Paginator(tracks, 1)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
     context = {
         'tracks': tracks,
         'marker': 'search_page',
-        'page_obj': page_obj,
+        'page_obj': data_for_tests.get_page_obj(request, tracks),
     }
 
     return render(request, 'player/search_page.html', context)

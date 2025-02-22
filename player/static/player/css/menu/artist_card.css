@@ -55,3 +55,255 @@
 .follow-btn:hover {
     background: #17a246;
 }
+
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: #fff;
+}
+
+/* Хедер плейлиста */
+.playlist-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #6a00f4, #ff007a);
+    color: #fff;
+}
+
+.gradient-background {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+}
+
+.playlist-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.playlist-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-info h1 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.playlist-info p {
+    font-size: 16px;
+    color: #d1d1d1;
+}
+
+.track-list {
+    margin: 20px;
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.track:hover {
+    background-color: #282828;
+}
+
+/* Логотип трека */
+.track-logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+/* Информация о треке */
+.track-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.track-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.track-artist {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin-top: 2px;
+}
+
+/* Длительность трека */
+.track-duration {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin-right: 15px;
+}
+
+/* Иконка Play */
+.play-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5e00ca;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    visibility: hidden;
+    position: absolute;
+    right: 20px;
+}
+
+.track:hover .play-icon {
+    visibility: visible;
+}
+
+.play-icon button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.play-icon button:hover {
+    transform: scale(1.1);
+}
+
+.playlist-info a{
+    all: unset;
+    cursor: pointer;
+}
+
+.playlist-info a:hover {
+    text-decoration: underline;
+}
+
+.track-info a{
+    all: unset;
+    cursor: pointer;
+}
+
+.track-info a:hover {
+    text-decoration: underline;
+}
+
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: #fff;
+}
+
+.top5-track-list {
+    margin: 20px;
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.track:hover {
+    background-color: #282828;
+}
+
+/* Логотип трека */
+.track-logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+/* Информация о треке */
+.track-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.track-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.track-artist {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin-top: 2px;
+}
+
+/* Длительность трека */
+.track-duration {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin-right: 15px;
+}
+
+/* Иконка Play */
+.play-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5e00ca;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    visibility: hidden;
+    position: absolute;
+    right: 20px;
+}
+
+.track:hover .play-icon {
+    visibility: visible;
+}
+
+.play-icon button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.play-icon button:hover {
+    transform: scale(1.1);
+}
+
+.playlist-info a{
+    all: unset;
+    cursor: pointer;
+}
+
+.playlist-info a:hover {
+    text-decoration: underline;
+}
+
+.track-info a{
+    all: unset;
+    cursor: pointer;
+}
+
+.track-info a:hover {
+    text-decoration: underline;
+}
