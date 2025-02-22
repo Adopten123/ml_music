@@ -1,5 +1,6 @@
 """Views File"""
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
 
@@ -43,11 +44,16 @@ def artist_card(request, artist_slug):
     """Artists Page view"""
     artist = get_object_or_404(Artist, slug=artist_slug)
 
-    top5_tracks = Track.published.filter(main_author=artist).order_by('-play_count')[:5]
+    all_author_tracks = Track.published.filter(
+        Q(main_author=artist) | Q(featured_authors=artist)
+    ).distinct().order_by('-publication_time')
+
+    top5_tracks = all_author_tracks.order_by('-play_count')[:5]
 
     data = {
         'artist': artist,
-        'top5_tracks': top5_tracks,
+        'tracks_for_column': top5_tracks,
+        'all_author_tracks' : all_author_tracks,
         'page_obj': data_for_tests.get_page_obj(request, Track.published.all()),
     }
     return render(request, 'player/artist_card.html', data)
@@ -59,7 +65,7 @@ def show_album(request, artist_slug, album_slug):
 
     data = {
         'album': album,
-        'tracks': tracks,
+        'tracks_for_column': tracks,
         'page_obj': data_for_tests.get_page_obj(request, tracks),
     }
     return render(request, 'player/album_page.html', data)

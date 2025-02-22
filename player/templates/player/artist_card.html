@@ -20,27 +20,13 @@
     </div>
 
     <div class="top5-track-list">
-    {% for track in top5_tracks %}
-        <div class="track"
-             data-src="{{ track.mp3.url }}"
-             data-logo="{{ track.logo.url }}"
-             data-name="{{ track.name }}"
-             data-author="{{ track.main_author }}"
-        >
-            <div class="play-icon">
-                <button>&#9654;</button>
-            </div>
-            <div class="track-logo">
-                <img src="{{ track.logo.url }}" alt="{{ track.name }}">
-            </div>
-            <div class="track-info">
-                <p class="track-name">{{ track.name }}</p>
-                <p class="track-artist"> <a href="{{ track.main_author.get_absolute_url }}">{{ track.main_author }}</a></p>
-            </div>
-            <p class="track-duration">{{ track.duration }}</p>
-        </div>
-    {% empty %}
-    {% endfor %}
-</div>
+        <h2 class="text-in-card">Popular tracks</h2>
+        {% include 'player/menu/tracks_column.html' %}
+    </div>
+
+    <div class="top5-track-list">
+        <h2 class="text-in-card">Music</h2>
+        {% include 'player/menu/tracks_row.html' %}
+    </div>
 
 {% endblock %}

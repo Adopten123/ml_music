@@ -100,9 +100,13 @@ body{
 }
 
 .eng-btn{
+    display: flex;
+    justify-content: center;
     padding: 5px 30px;
 }
 .eng-btn button{
+    display: flex;
+    justify-content: center;
     padding: 10px 30px;
     background: transparent;
     border: 0;

@@ -1,0 +1,97 @@
+.genre-section {
+    margin-bottom: 40px;
+    display: block;
+    padding: 20px;
+}
+
+.genre-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.genre-section .tracks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.genre-section .track {
+    display: inline-block;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    background: #3a3a3a;
+}
+
+.genre-section .track img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.genre-section .track:hover img {
+    background-color: #f0f0f0;
+}
+
+.genre-section .track-name {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+}
+
+.genre-section .track-author {
+    color: gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
+
+.genre-section .track-author a{
+    all: unset; /* Убирает все стандартные стили */
+    cursor: pointer; /* Делаем курсор указателем */
+}
+
+.genre-section .track-author a:hover {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+}
+
+.genre-section .track:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgb(162, 39, 248);
+}
+
+.genre-section .track::before {
+    content: '\25B6';
+    font-size: 24px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(94, 0, 202, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.genre-section .track:hover::before {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+

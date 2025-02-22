@@ -5,38 +5,17 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'player/css/album_page.css' %}">
 
-<div class="playlist-header">
-    <div class="gradient-background">
-        <img class="playlist-avatar" src="{{ album.logo.url }}" alt="Playlist avatar">
-    </div>
-    <div class="playlist-info">
-        <h1>{{ album.name }}</h1>
-        <p>By <a href="{{ album.main_author.get_absolute_url }}"> {{ album.main_author }}</a></p>
-    </div>
-</div>
-
-<div class="track-list">
-    {% for track in tracks %}
-        <div class="track"
-             data-src="{{ track.mp3.url }}"
-             data-logo="{{ track.logo.url }}"
-             data-name="{{ track.name }}"
-             data-author="{{ track.main_author }}"
-        >
-            <div class="play-icon">
-                <button>&#9654;</button>
-            </div>
-            <div class="track-logo">
-                <img src="{{ track.logo.url }}" alt="{{ track.name }}">
-            </div>
-            <div class="track-info">
-                <p class="track-name">{{ track.name }}</p>
-                <p class="track-artist"> <a href="{{ track.main_author.get_absolute_url }}">{{ track.main_author }}</a></p>
-            </div>
-            <p class="track-duration">{{ track.duration }}</p>
+    <div class="playlist-header">
+        <div class="gradient-background">
+            <img class="playlist-avatar" src="{{ album.logo.url }}" alt="Playlist avatar">
         </div>
-    {% empty %}
-        <p>No tracks in this playlist.</p>
-    {% endfor %}
-</div>
+        <div class="playlist-info">
+            <h1>{{ album.name }}</h1>
+            <p>By <a href="{{ album.main_author.get_absolute_url }}"> {{ album.main_author }}</a></p>
+        </div>
+    </div>
+
+    <div class="track-list">
+        {% include 'player/menu/tracks_column.html' %}
+    </div>
 {% endblock %}
