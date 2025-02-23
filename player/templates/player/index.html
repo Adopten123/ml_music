@@ -34,7 +34,9 @@
                             <img src="{{ album.logo.url }}" alt="{{ album.name }}">
                         </a>
                         <div class="track-name">{{ album.name }}</div>
-                        <div class="track-author">{{ album.main_author.name }}</div>
+                        <div class="track-author">
+                            <a href="{{ album.main_author.get_absolute_url }}">
+                                {{ album.main_author.name }}</a></div>
                     </div>
 
                 {% endfor %}

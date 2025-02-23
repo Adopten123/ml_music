@@ -45,7 +45,7 @@ class TrackPublishedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects published tracks"""
     def get_queryset(self):
         """Function for getting published tracks"""
-        return super().get_queryset().filter(is_published=Track.Status.PUBLISHED) # pylint: disable=E1101
+        return super().get_queryset().filter(is_published=Track.Status.PUBLISHED)
 
 class Track(models.Model):
     """Class of Music Track"""
@@ -92,7 +92,7 @@ class AlbumPublishedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects published albums"""
     def get_queryset(self):
         """Function for getting published albums"""
-        return super().get_queryset().filter(is_published=Album.STATUS.PUBLISHED) # pylint: disable=E1101
+        return super().get_queryset().filter(is_published=Album.Status.PUBLISHED)
 
 class Album(models.Model):
     """Class of Music Album"""

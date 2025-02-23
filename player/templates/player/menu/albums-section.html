@@ -1,0 +1,19 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'player/css/menu/tracks_row.css' %}">
+
+<div class="genre-section">
+    <div class="tracks">
+        {% for album in all_author_albums|slice:":7" %}
+            <div class="track">
+                <a href="{% url 'show_album' album.main_author.slug album.slug %}">
+                    <img src="{{ album.logo.url }}" alt="{{ album.name }}">
+                </a>
+                <div class="track-name">{{ album.name }}</div>
+                <div class="track-author">
+                    <a href="{{ album.main_author.get_absolute_url }}">
+                        {{ album.main_author.name }}</a></div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
