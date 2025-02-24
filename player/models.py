@@ -2,7 +2,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.text import slugify
+from pytils.translit import slugify
 
 
 # Create your models here.
