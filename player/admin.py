@@ -31,6 +31,7 @@ class GenreAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name', 'slug')
     list_per_page = 20
     ordering = ['id', 'name']
+    readonly_fields = ['slug',]
 
 class ArtistAdmin(admin.ModelAdmin):
     """class for changing viewing of artists in admin panel"""
@@ -40,6 +41,7 @@ class ArtistAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ['id', 'name']
     search_fields = ['name']
+    readonly_fields = ['slug', ]
 
     actions = ['set_confirmed', 'set_unconfirmed']
 
@@ -61,6 +63,7 @@ class AlbumAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ['-publication_time', '-name']
     search_fields = ['name', 'main_author__name']
+    readonly_fields = ['slug', ]
 
     actions = ['set_published', 'set_unreleased']
 

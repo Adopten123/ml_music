@@ -2,6 +2,9 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
+
+
 # Create your models here.
 
 class Genre(models.Model):
@@ -14,6 +17,11 @@ class Genre(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        """Function for making slug"""
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 class ConfirmedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects confirmed performers"""
@@ -46,6 +54,11 @@ class Artist(models.Model):
     def get_absolute_url(self):
         """return url for artist page"""
         return reverse('artist', kwargs={'artist_slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        """Function for making slug"""
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 class TrackPublishedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects published tracks"""
@@ -134,3 +147,8 @@ class Album(models.Model):
         indexes = [
             models.Index(fields=['-time_created']),  # order-by-time-of-publication
         ]
+
+    def save(self, *args, **kwargs):
+        """Function for making slug"""
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
