@@ -23,10 +23,16 @@ class ConfirmedManager(models.Manager): # pylint: disable=R0903
 
 class Artist(models.Model):
     """Class of Music Artist"""
+
+    class Status(models.IntegerChoices): # pylint: disable=R0901
+        """Confirmed status of Artist"""
+        UNCONFIRMED = 0, 'Неподтвержденный'
+        CONFIRMED = 1, 'Подтвержденный'
+
     name = models.CharField(max_length=64) # artist name
     slug = models.SlugField(max_length=64, unique=True) # artist slug for artist page
     logo = models.ImageField(upload_to='artists/',blank=False, null=True) # logo of artist
-    is_confirmed = models.BooleanField(default=False)
+    is_confirmed = models.BooleanField(choices=Status.choices, default=Status.CONFIRMED)
     sub_count = models.IntegerField(default=0)
     genre = models.ForeignKey(Genre, on_delete=models.PROTECT) # the main genre of artist
 
@@ -52,8 +58,8 @@ class Track(models.Model):
 
     class Status(models.IntegerChoices): # pylint: disable=R0901
         """Choices for track status"""
-        UNRELEASED = 0, 'НЕОПУБЛИКОВАННЫЙ'
-        PUBLISHED = 1, 'ОПУБЛИКОВАННЫЙ'
+        UNRELEASED = 0, 'Неопубликованный'
+        PUBLISHED = 1, 'Опубликованный'
 
 
     name = models.CharField(max_length=128) # track-name
@@ -98,8 +104,8 @@ class Album(models.Model):
     """Class of Music Album"""
     class Status(models.IntegerChoices): # pylint: disable=R0901
         """Choices for album status"""
-        UNRELEASED = 0, 'НЕОПУБЛИКОВАННЫЙ'
-        PUBLISHED = 1, 'ОПУБЛИКОВАННЫЙ'
+        UNRELEASED = 0, 'Неопубликованный'
+        PUBLISHED = 1, 'Опубликованный'
 
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=64, blank=True)

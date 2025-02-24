@@ -3,7 +3,78 @@
 from django.contrib import admin
 from .models import Artist, Genre, Track, Album
 
-admin.site.register(Artist)
-admin.site.register(Genre)
-admin.site.register(Track)
-admin.site.register(Album)
+#rename admin-panel
+admin.site.site_header = "ML Music admin-panel"
+
+class TrackAdmin(admin.ModelAdmin):
+    """class for changing viewing of tracks in admin panel"""
+    list_display = ('id', 'name', 'main_author', 'publication_time', 'is_published')
+    list_display_links = ('id', 'name')
+    list_filter = ('is_published', 'genre__name')
+    list_per_page = 20
+    ordering = ['-publication_time', '-name']
+    search_fields = ['name', 'main_author__name']
+
+    actions = ['set_published', 'set_unreleased']
+
+    @admin.action(description="Make published status")
+    def set_published(self, request, queryset):
+        queryset.update(is_published = Track.Status.PUBLISHED)
+
+    @admin.action(description="Make unreleased status")
+    def set_unreleased(self, request, queryset):
+        queryset.update(is_published=Track.Status.UNRELEASED)
+
+class GenreAdmin(admin.ModelAdmin):
+    """class for changing viewing of genres in admin panel"""
+    list_display = ('id', 'name', 'slug')
+    list_display_links = ('id', 'name', 'slug')
+    list_per_page = 20
+    ordering = ['id', 'name']
+
+class ArtistAdmin(admin.ModelAdmin):
+    """class for changing viewing of artists in admin panel"""
+    list_display = ('id', 'name', 'slug', 'is_confirmed')
+    list_display_links = ('id', 'name', 'slug')
+    list_filter = ('is_confirmed', 'genre__name')
+    list_per_page = 20
+    ordering = ['id', 'name']
+    search_fields = ['name']
+
+    actions = ['set_confirmed', 'set_unconfirmed']
+
+    @admin.action(description="Make confirmed status")
+    def set_confirmed(self, request, queryset):
+        queryset.update(is_published=Artist.Status.CONFIRMED)
+
+    @admin.action(description="Make unconfirmed status")
+    def set_unconfirmed(self, request, queryset):
+        queryset.update(is_published=Artist.Status.UNCONFIRMED)
+
+
+
+class AlbumAdmin(admin.ModelAdmin):
+    """class for changing viewing of albums in admin panel"""
+    list_display = ('id', 'name', 'main_author', 'publication_time', 'is_published')
+    list_display_links = ('id', 'name')
+    list_filter = ('is_published', 'genre__name')
+    list_per_page = 20
+    ordering = ['-publication_time', '-name']
+    search_fields = ['name', 'main_author__name']
+
+    actions = ['set_published', 'set_unreleased']
+
+    @admin.action(description="Make published status")
+    def set_published(self, request, queryset):
+        queryset.update(is_published=Album.Status.PUBLISHED)
+
+    @admin.action(description="Make unreleased status")
+    def set_unreleased(self, request, queryset):
+        queryset.update(is_published=Album.Status.UNRELEASED)
+
+
+
+admin.site.register(Track, TrackAdmin)
+admin.site.register(Genre, GenreAdmin)
+admin.site.register(Artist, ArtistAdmin)
+admin.site.register(Album, AlbumAdmin)
