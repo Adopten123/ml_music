@@ -40,8 +40,8 @@ class ArtistAdmin(admin.ModelAdmin):
     list_filter = ('is_confirmed', 'genre__name')
     list_per_page = 20
     ordering = ['id', 'name']
+    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
-    readonly_fields = ['slug', ]
 
     actions = ['set_confirmed', 'set_unconfirmed']
 
@@ -62,8 +62,8 @@ class AlbumAdmin(admin.ModelAdmin):
     list_filter = ('is_published', 'genre__name')
     list_per_page = 20
     ordering = ['-publication_time', '-name']
+    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'main_author__name']
-    readonly_fields = ['slug', ]
 
     actions = ['set_published', 'set_unreleased']
 

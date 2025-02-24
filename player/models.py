@@ -55,11 +55,6 @@ class Artist(models.Model):
         """return url for artist page"""
         return reverse('artist', kwargs={'artist_slug': self.slug})
 
-    def save(self, *args, **kwargs):
-        """Function for making slug"""
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
 class TrackPublishedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects published tracks"""
     def get_queryset(self):
@@ -147,8 +142,3 @@ class Album(models.Model):
         indexes = [
             models.Index(fields=['-time_created']),  # order-by-time-of-publication
         ]
-
-    def save(self, *args, **kwargs):
-        """Function for making slug"""
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
