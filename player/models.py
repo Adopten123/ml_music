@@ -7,7 +7,11 @@ from pytils.translit import slugify
 from django.contrib.auth.models import AbstractUser
 
 
-# Create your models here.
+class PlayerUser(AbstractUser):
+    profile_photo = models.ImageField(upload_to='profile_logo', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.username}"
 
 class Genre(models.Model):
     """Class of Music Genre"""

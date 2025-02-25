@@ -137,6 +137,8 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'player.PlayerUser'
+
 EMAIL_HOST=secrets.EMAIL_HOST
 EMAIL_PORT=secrets.EMAIL_PORT
 EMAIL_USE_SSL=secrets.EMAIL_USE_SSL

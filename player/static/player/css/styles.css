@@ -232,6 +232,7 @@ footer {
     footer {
         padding: 0.8em 0;
         font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
