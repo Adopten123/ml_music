@@ -27,4 +27,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
+        echo "SECRET_KEY = 'django-insecure-dummy-secret'" > ./ml_music/secrets.py
         python manage.py test
