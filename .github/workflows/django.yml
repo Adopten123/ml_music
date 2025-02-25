@@ -30,14 +30,14 @@ jobs:
         echo "SECRET_KEY = 'django-insecure-dummy-secret'" > ./ml_music/secrets.py
         python manage.py test
     - name: Run database migrations
-        env:
-          DATABASE_URL: postgres://user:password@localhost:5432/test_db
-        run: python manage.py migrate
+      env:
+        DATABASE_URL: postgres://user:password@localhost:5432/test_db
+      run: python manage.py migrate
 
     - name: Run tests
-        env:
-          DATABASE_URL: postgres://user:password@localhost:5432/test_db
-        run: pytest --cov=myapp
+      env:
+        DATABASE_URL: postgres://user:password@localhost:5432/test_db
+      run: pytest --cov=myapp
 
     - name: Check migration consistency
-        run: python manage.py makemigrations --check --dry-run
+      run: python manage.py makemigrations --check --dry-run
