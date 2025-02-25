@@ -62,6 +62,7 @@ class ArtistAdmin(admin.ModelAdmin):
 
 class AlbumAdmin(admin.ModelAdmin):
     """class for changing viewing of albums in admin panel"""
+    filter_horizontal = ['tracks']
     list_display = ('id', 'name', 'main_author', 'publication_time', 'is_published')
     list_display_links = ('id', 'name')
     list_filter = ('is_published', 'genre__name')

@@ -47,7 +47,7 @@
             <div class="genre-section">
                 <h2>{{ genre }}</h2>
                 <div class="tracks">
-                    {% for track in tracks %}
+                    {% for track in tracks|slice:":8" %}
                         <div class="track"
                              data-src="{{ track.mp3.url }}"
                              data-logo="{{ track.logo.url }}"
