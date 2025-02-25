@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'debug_toolbar',
     'player.apps.PlayerConfig',
+    'user_manager.apps.UserManagerConfig',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LOGIN_URL = 'login'
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -133,3 +136,9 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST=secrets.EMAIL_HOST
+EMAIL_PORT=secrets.EMAIL_PORT
+EMAIL_USE_SSL=secrets.EMAIL_USE_SSL
+EMAIL_HOST_USER=secrets.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD=secrets.EMAIL_HOST_PASSWORD

@@ -1,4 +1,5 @@
 """Views File"""
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound
@@ -7,6 +8,7 @@ from django.db.models import Prefetch
 from . import data_for_tests
 from .models import Artist, Track, Genre, Album
 
+@login_required
 def index(request):
     """Main Page view"""
 
@@ -39,6 +41,7 @@ def genres_by_slug(request, genre_slug): # pylint: disable=W0613
     """Genre Page view"""
     return HttpResponse(f"<h1>Genres page</h1> <p> Genre: {genre_slug} </p>")
 
+@login_required
 def information(request, info_slug):
     """Information Page view"""
     title_to_find = data_for_tests.get_title_by_infoslug(info_slug) + ' | ML Music'
@@ -49,6 +52,7 @@ def information(request, info_slug):
     }
     return render(request, f"player/information/{info_slug}.html", data)
 
+@login_required
 def artist_card(request, artist_slug):
     """Artists Page view"""
     artist = get_object_or_404(Artist, slug=artist_slug)
@@ -73,6 +77,7 @@ def artist_card(request, artist_slug):
 
     return render(request, 'player/artist_card.html', data)
 
+@login_required
 def show_album(request, artist_slug, album_slug):
     """Album Page view"""
     album = get_object_or_404(
@@ -99,10 +104,12 @@ def show_album(request, artist_slug, album_slug):
     }
     return render(request, 'player/album_page.html', data)
 
+@login_required
 def show_search_page(request):
     """Search Page view"""
     return  render(request, 'player/search_page.html')
 
+@login_required
 def search(request):
     """Search Page view"""
     query = request.GET.get('query', '').strip()
