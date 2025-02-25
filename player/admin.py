@@ -9,6 +9,9 @@ admin.site.site_header = "ML Music admin-panel"
 class TrackAdmin(admin.ModelAdmin):
     """class for changing viewing of tracks in admin panel"""
     filter_horizontal = ['featured_authors']
+
+    exclude = ['duration', 'play_count']
+
     list_display = ('id', 'name', 'main_author', 'publication_time', 'is_published')
     list_display_links = ('id', 'name')
     list_filter = ('is_published', 'genre__name')

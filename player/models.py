@@ -1,8 +1,12 @@
 """Models of Player"""
+import os
+
+from datetime import datetime, time
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from pytils.translit import slugify
+from mutagen.mp3 import MP3
 
 from django.contrib.auth.models import AbstractUser
 
@@ -70,6 +74,10 @@ class TrackPublishedManager(models.Manager): # pylint: disable=R0903
 class Track(models.Model):
     """Class of Music Track"""
 
+    def default_publication_time():
+        """Return time with params 00:00:00"""
+        return timezone.localtime().replace(hour=0, minute=0, second=0, microsecond=0)
+
     class Status(models.IntegerChoices): # pylint: disable=R0901
         """Choices for track status"""
         UNRELEASED = 0, 'Неопубликованный'
@@ -80,7 +88,7 @@ class Track(models.Model):
     main_author = models.ForeignKey(Artist, on_delete=models.PROTECT) # the main author of track
     featured_authors = models.ManyToManyField(Artist, related_name='featured_artists', blank=True)
     genre = models.ForeignKey(Genre, on_delete=models.PROTECT)  # genre of track
-    publication_time = models.DateTimeField(default=timezone.now)
+    publication_time = models.DateTimeField(default=default_publication_time)
 
     #Moderator Info
     time_created = models.DateTimeField(auto_now_add=True)
@@ -107,6 +115,24 @@ class Track(models.Model):
         indexes = [
             models.Index(fields=['id']),  # order-by-id
         ]
+
+    def save(self, *args, **kwargs):
+        """Auto compute of track duration"""
+        if self.mp3:
+            mp3_path = self.mp3.path
+            if os.path.exists(mp3_path):
+                audio = MP3(mp3_path)
+                duration_seconds = int(audio.info.length)
+
+                hours, remainder = divmod(duration_seconds, 3600)
+                minutes, seconds = divmod(remainder, 60)
+
+                if hours:
+                    self.duration = f"{hours}.{minutes:02}.{seconds:02}"
+                else:
+                    self.duration = f"{minutes}.{seconds:02}"
+
+        super().save(*args, **kwargs)
 
 class AlbumPublishedManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects published albums"""
