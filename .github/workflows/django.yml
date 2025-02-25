@@ -39,7 +39,7 @@ jobs:
     - name: Run tests
       env:
         DATABASE_URL: postgres://user:password@localhost:5432/test_db
-      run: pytest --cov=myapp
+      run: pytest --cov=player --cov-report=term-missing
 
     - name: Check migration consistency
       run: python manage.py makemigrations --check --dry-run
