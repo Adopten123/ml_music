@@ -63,6 +63,7 @@ def artist_card(request, artist_slug):
 
     data = {
         'artist': artist,
+        'title': artist.name + ' | ML Music',
         'tracks_for_column': top5_tracks,
         'all_author_tracks': all_author_tracks,
         'all_author_albums': all_author_albums,
@@ -91,6 +92,7 @@ def show_album(request, artist_slug, album_slug):
 
     data = {
         'album': album,
+        'title': album.name + ' | ML Music',
         'tracks_for_column': tracks,
         'page_obj': data_for_tests.get_page_obj(request, tracks),
     }
@@ -112,6 +114,7 @@ def search(request):
 
     context = {
         'tracks': tracks,
+        'title': 'Search | ML Music',
         'marker': 'search_page',
         'page_obj': data_for_tests.get_page_obj(request, tracks),
     }
