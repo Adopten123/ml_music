@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.13]
+        python-version: [3.12]
 
     steps:
     - uses: actions/checkout@v4
@@ -31,6 +31,7 @@ jobs:
       run: |
         echo "SECRET_KEY = 'django-insecure-dummy-secret'" > ./ml_music/secrets.py
         python manage.py test
+
     - name: Run database migrations
       env:
         DATABASE_URL: postgres://user:password@localhost:5432/test_db
