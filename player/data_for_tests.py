@@ -15,6 +15,7 @@ def get_title_by_infoslug(info_slug):
     return next((item['name'] for item in lowermenu_buttons if item['url'] == info_slug), None)
 
 def get_page_obj(request, tracks):
+    """Getting tracks for player"""
     paginator = Paginator(tracks, 1)
     page_number = request.GET.get('page')
     return paginator.get_page(page_number)

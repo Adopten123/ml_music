@@ -19,11 +19,13 @@ class TrackAdmin(admin.ModelAdmin):
     actions = ['set_published', 'set_unreleased']
 
     @admin.action(description="Make published status")
-    def set_published(self, request, queryset):
+    def set_published(self, request, queryset): # pylint: disable=W0613
+        """Action for setting published status in admin panel"""
         queryset.update(is_published = Track.Status.PUBLISHED)
 
     @admin.action(description="Make unreleased status")
-    def set_unreleased(self, request, queryset):
+    def set_unreleased(self, request, queryset): # pylint: disable=W0613
+        """Action for setting unpublished status in admin panel"""
         queryset.update(is_published=Track.Status.UNRELEASED)
 
 class GenreAdmin(admin.ModelAdmin):
@@ -47,11 +49,13 @@ class ArtistAdmin(admin.ModelAdmin):
     actions = ['set_confirmed', 'set_unconfirmed']
 
     @admin.action(description="Make confirmed status")
-    def set_confirmed(self, request, queryset):
+    def set_confirmed(self, request, queryset): # pylint: disable=W0613
+        """Action for setting confirmed status in admin panel"""
         queryset.update(is_published=Artist.Status.CONFIRMED)
 
     @admin.action(description="Make unconfirmed status")
-    def set_unconfirmed(self, request, queryset):
+    def set_unconfirmed(self, request, queryset): # pylint: disable=W0613
+        """Action for setting unconfirmed status in admin panel"""
         queryset.update(is_published=Artist.Status.UNCONFIRMED)
 
 
@@ -69,11 +73,13 @@ class AlbumAdmin(admin.ModelAdmin):
     actions = ['set_published', 'set_unreleased']
 
     @admin.action(description="Make published status")
-    def set_published(self, request, queryset):
+    def set_published(self, request, queryset): # pylint: disable=W0613
+        """Action for setting published status in admin panel"""
         queryset.update(is_published=Album.Status.PUBLISHED)
 
     @admin.action(description="Make unreleased status")
-    def set_unreleased(self, request, queryset):
+    def set_unreleased(self, request, queryset): # pylint: disable=W0613
+        """Action for setting unpublished status in admin panel"""
         queryset.update(is_published=Album.Status.UNRELEASED)
 
 

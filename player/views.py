@@ -11,7 +11,7 @@ def index(request):
     """Main Page view"""
 
     # Загружаем жанры с предзагрузкой связанных треков
-    genres = Genre.objects.prefetch_related(
+    genres_for_index = Genre.objects.prefetch_related(
         Prefetch(
             'track_set',
             queryset=Track.published.select_related('genre', 'main_author'),
@@ -21,12 +21,13 @@ def index(request):
 
     albums = Album.objects.select_related('main_author').all()
 
-    tracks_by_genre = {genre: genre.published_tracks for genre in genres}
+    tracks_by_genre = {genre: genre.published_tracks for genre in genres_for_index}
 
     data = {
         'albums': albums,
         'tracks_by_genre': tracks_by_genre,
-        'page_obj': data_for_tests.get_page_obj(request, Track.published.select_related('main_author', 'genre')),
+        'page_obj': data_for_tests.
+            get_page_obj(request, Track.published.select_related('main_author', 'genre')),
     }
     return render(request, 'player/index.html', data)
 
@@ -99,6 +100,7 @@ def show_album(request, artist_slug, album_slug):
     return render(request, 'player/album_page.html', data)
 
 def show_search_page(request):
+    """Search Page view"""
     return render(request, 'player/search_page.html')
 
 def search(request):
@@ -125,4 +127,3 @@ def search(request):
 def page_not_found(request, exception): # pylint: disable=W0613
     """Error Page Views"""
     return HttpResponseNotFound("<h1>Page not found</h1>")
-
