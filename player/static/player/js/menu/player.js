@@ -12,8 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const trackLogo = document.getElementById("track-logo");
     const trackTitle = document.getElementById("track-title");
     const trackAuthor = document.getElementById("track-author");
+    const tracks = document.querySelectorAll(".track");
+    let currentTrackIndex = 0;
 
-    // Play/Pause
     function togglePlayPause() {
         if (audioPlayer.paused) {
             audioPlayer.play();
@@ -28,19 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playPauseBtn.addEventListener("click", togglePlayPause);
 
-    // Форматирование времени в формате MM:SS
     function formatTime(time) {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     }
 
-    // Обновляет длительность трека
     audioPlayer.addEventListener("loadedmetadata", () => {
         durationElement.textContent = formatTime(audioPlayer.duration);
     });
 
-    // Обновляет текущее время и прогресс-бар
     audioPlayer.addEventListener("timeupdate", () => {
         const currentTime = audioPlayer.currentTime;
         currentTimeElement.textContent = formatTime(currentTime);
@@ -48,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
         progress.style.width = `${percent}%`;
     });
 
-    // Перематывание трека по клику на прогресс-бар
     function setProgress(event) {
         const barWidth = progressBar.clientWidth;
         const clickX = event.clientX - progressBar.getBoundingClientRect().left;
@@ -56,17 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isNaN(duration) && duration > 0) {
             audioPlayer.currentTime = Math.min((clickX / barWidth) * duration, duration - 0.1);
-            console.log("Перемотано на:", audioPlayer.currentTime);
         }
     }
 
     if (progressBar) {
         progressBar.addEventListener("click", setProgress);
-    } else {
-        console.error("Прогресс-бар не найден!");
     }
 
-    // Управление громкостью
     volumeSlider.addEventListener("input", (e) => {
         audioPlayer.volume = e.target.value;
     });
@@ -81,25 +74,26 @@ document.addEventListener("DOMContentLoaded", () => {
         volumeSlider.value = audioPlayer.volume;
     });
 
-    // Переключение треков
-    document.querySelectorAll(".track").forEach(track => {
-        track.addEventListener("click", function () {
-            const trackSrc = this.getAttribute("data-src");
-            const logoSrc = this.getAttribute("data-logo");
-            const trackName = this.getAttribute("data-name");
-            const trackAuthorName = this.getAttribute("data-author");
+    function loadTrack(index) {
+        if (index >= 0 && index < tracks.length) {
+            const track = tracks[index];
+            audioPlayer.src = track.getAttribute("data-src");
+            trackLogo.src = track.getAttribute("data-logo");
+            trackTitle.textContent = track.getAttribute("data-name");
+            trackAuthor.textContent = track.getAttribute("data-author");
+            currentTrackIndex = index;
+            audioPlayer.play();
+            playIcon.classList.remove("fa-play");
+            playIcon.classList.add("fa-pause");
+        }
+    }
 
-            if (trackSrc) {
-                audioPlayer.src = trackSrc;
-                audioPlayer.play();
+    tracks.forEach((track, index) => {
+        track.addEventListener("click", () => loadTrack(index));
+    });
 
-                trackLogo.src = logoSrc;
-                trackTitle.textContent = trackName;
-                trackAuthor.textContent = trackAuthorName;
-
-                playIcon.classList.remove("fa-play");
-                playIcon.classList.add("fa-pause");
-            }
-        });
+    audioPlayer.addEventListener("ended", () => {
+        let nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
+        loadTrack(nextTrackIndex);
     });
 });
