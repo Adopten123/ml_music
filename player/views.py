@@ -1,6 +1,6 @@
 """Views File"""
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Prefetch
 
@@ -101,7 +101,7 @@ def show_album(request, artist_slug, album_slug):
 
 def show_search_page(request):
     """Search Page view"""
-    return render(request, 'player/search_page.html')
+    return  render(request, 'player/search_page.html')
 
 def search(request):
     """Search Page view"""
