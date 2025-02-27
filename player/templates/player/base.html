@@ -94,7 +94,9 @@
     </div>
 
     {% block content %}{% endblock %}
-    {% include 'player/menu/player.html' %}
+    <div class="music-player">
+        {% include 'player/menu/player.html' %}
+    </div>
 </div>
 </body>
 
