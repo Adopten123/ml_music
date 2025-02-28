@@ -1,7 +1,7 @@
 """Views File"""
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Prefetch
 
@@ -137,6 +137,7 @@ def page_not_found(request, exception): # pylint: disable=W0613
     return HttpResponseNotFound("<h1>Page not found</h1>")
 
 def playlist_detail(request, slug):
+    """View for playlist detail"""
     playlist = get_object_or_404(
         Playlist.objects
         .select_related('owner')

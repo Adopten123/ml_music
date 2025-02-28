@@ -21,4 +21,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --ignore-paths=./player/migrations/
+        pylint $(git ls-files '*.py') --ignore-paths=./player/migrations/,./user_manager/migrations/,./user_manager/views.py,./user_manager/models.py

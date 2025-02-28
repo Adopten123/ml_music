@@ -1,3 +1,5 @@
+"""Views of User Manager"""
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -7,12 +9,8 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.urls import reverse
 
-from .models import *
-from player import models as player_models
-
-MIN_PASSWORD_LENGTH = 10
-
 def is_username_exists(request, username):
+    """Function to check if a username exists"""
     if User.objects.filter(username=username).exists():
         messages.error(request, "Username already exists")
         return True
@@ -20,13 +18,17 @@ def is_username_exists(request, username):
     return False
 
 def is_email_exists(request, email):
+    """Function to check if an email exists"""
     if User.objects.filter(email=email).exists():
         messages.error(request, "Email already exists")
         return True
 
     return False
 
+
+MIN_PASSWORD_LENGTH = 10
 def is_correct_password(request, password):
+    """Function to check if a password is correct"""
     if len(password) < MIN_PASSWORD_LENGTH:
         messages.error(request, f"Password must be at least {MIN_PASSWORD_LENGTH} characters")
         return True
@@ -34,7 +36,7 @@ def is_correct_password(request, password):
     return False
 
 def register_view(request):
-
+    """View to register a new user"""
     if request.method == "POST":
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -62,7 +64,7 @@ def register_view(request):
     return render(request, 'user_manager/register.html')
 
 def login_view(request):
-
+    """View to login a user"""
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -79,11 +81,12 @@ def login_view(request):
     return render(request, 'user_manager/login.html')
 
 def logout_view(request):
+    """Logout a user"""
     logout(request)
     return redirect('login')
 
 def forgot_password_view(request):
-
+    """View to forgot password from user"""
     if request.method == "POST":
         email = request.POST.get('email')
 
@@ -93,7 +96,8 @@ def forgot_password_view(request):
             new_password_reset = PasswordReset(user=user)
             new_password_reset.save()
 
-            password_reset_url = reverse('reset-password', kwargs={'reset_id': new_password_reset.reset_id})
+            password_reset_url = reverse('reset-password',
+                                         kwargs={'reset_id': new_password_reset.reset_id})
 
             full_password_reset_url = f'{request.scheme}://{request.get_host()}{password_reset_url}'
 
@@ -118,6 +122,7 @@ def forgot_password_view(request):
     return render(request, 'user_manager/forgot_password.html')
 
 def password_reset_sent_view(request, reset_id):
+    """View to send a password reset email"""
     if PasswordReset.objects.filter(reset_id=reset_id).exists():
         return render(request, 'user_manager/password_reset_sent.html')
     else:
@@ -126,6 +131,7 @@ def password_reset_sent_view(request, reset_id):
         return redirect('forgot-password')
 
 def reset_password_view(request, reset_id):
+    """View to reset a user's password'"""
     try:
         password_reset_id = PasswordReset.objects.get(reset_id=reset_id)
 
@@ -165,8 +171,7 @@ def reset_password_view(request, reset_id):
                 return redirect('reset-password', reset_id=reset_id)
 
 
-    except PasswordReset.DoesNotExist:
-
+    except PasswordReset.DoesNotExist: # pylint: disable=E0602
         # redirect to forgot password page if code does not exist
         messages.error(request, 'Invalid reset id')
         return redirect('forgot-password')

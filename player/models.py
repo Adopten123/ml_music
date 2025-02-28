@@ -1,17 +1,16 @@
 """Models of Player"""
 import os
 
-from datetime import datetime, time
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from pytils.translit import slugify
 from mutagen.mp3 import MP3
 
-from django.contrib.auth.models import AbstractUser
-
 
 class PlayerUser(AbstractUser):
+    """Player User Class"""
     profile_photo = models.ImageField(upload_to='profile_logo', blank=True, null=True)
 
     def __str__(self):
@@ -74,7 +73,7 @@ class TrackPublishedManager(models.Manager): # pylint: disable=R0903
 class Track(models.Model):
     """Class of Music Track"""
 
-    def default_publication_time():
+    def default_publication_time(): # pylint: disable=E0211
         """Return time with params 00:00:00"""
         return timezone.localtime().replace(hour=0, minute=0, second=0, microsecond=0)
 
@@ -119,7 +118,7 @@ class Track(models.Model):
     def save(self, *args, **kwargs):
         """Auto compute of track duration"""
         if self.mp3:
-            mp3_path = self.mp3.path
+            mp3_path = self.mp3.path # pylint: disable=no-member
             if os.path.exists(mp3_path):
                 audio = MP3(mp3_path)
                 duration_seconds = int(audio.info.length)
@@ -175,7 +174,7 @@ class Album(models.Model):
             models.Index(fields=['-time_created']),  # order-by-time-of-publication
         ]
 
-class PlayListPublicManager(models.Manager):
+class PlayListPublicManager(models.Manager): # pylint: disable=R0903
     """Class-manager selects public playlists"""
     def get_queryset(self):
         """Function for getting published albums"""
@@ -183,7 +182,8 @@ class PlayListPublicManager(models.Manager):
 
 class Playlist(models.Model):
     """Class of Music Playlist"""
-    class Status(models.IntegerChoices):
+    class Status(models.IntegerChoices): # pylint: disable=R0901
+        """Choices for playlist status"""
         PRIVATE = 0, "Приватный"
         PUBLIC = 1, "Публичный"
 
@@ -209,4 +209,5 @@ class Playlist(models.Model):
         return f'{self.name} of {self.owner}'
 
     def get_absolute_url(self):
+        """return url for playlist page"""
         return reverse('playlist_detail', args=[self.slug])

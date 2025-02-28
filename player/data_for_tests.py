@@ -1,8 +1,6 @@
 """ module with debug functions """
 from django.core.paginator import Paginator
 
-from player.models import Playlist
-
 lowermenu_buttons = [
     {'name': 'Legal', 'url': 'legal'},
     {'name': 'Safety & Privacy', 'url': 'safety_and_privacy'},

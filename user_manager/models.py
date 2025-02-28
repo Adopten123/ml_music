@@ -1,11 +1,15 @@
+"""Models of User Manager"""
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import User
-import uuid
 
 from ml_music import settings
 
 
 class PasswordReset(models.Model):
+    """Password reset model"""
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reset_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     created_when = models.DateTimeField(auto_now_add=True)
