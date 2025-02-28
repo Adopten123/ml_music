@@ -74,7 +74,7 @@ class TrackPublishedManager(models.Manager): # pylint: disable=R0903
 class Track(models.Model):
     """Class of Music Track"""
 
-    def default_publication_time():
+    def default_publication_time(self):
         """Return time with params 00:00:00"""
         return timezone.localtime().replace(hour=0, minute=0, second=0, microsecond=0)
 
@@ -174,3 +174,36 @@ class Album(models.Model):
         indexes = [
             models.Index(fields=['-time_created']),  # order-by-time-of-publication
         ]
+
+class PlayListPublicManager(models.Manager):
+    """Class-manager selects public playlists"""
+    def get_queryset(self):
+        """Function for getting published albums"""
+        return super().get_queryset().filter(is_published=Playlist.Status.PUBLIC)
+
+class Playlist(models.Model):
+    """Class of Music Playlist"""
+    class Status(models.IntegerChoices):
+        PRIVATE = 0, "Приватный"
+        PUBLIC = 1, "Публичный"
+
+    name = models.CharField(max_length=128)
+    slug = models.SlugField(max_length=64, blank=True)
+
+    owner = models.ForeignKey(PlayerUser, on_delete=models.PROTECT)
+    added_users = models.ManyToManyField(PlayerUser, related_name='friends', blank=True)
+    tracks = models.ManyToManyField(Track, related_name='playlists', blank=True)
+
+    logo = models.ImageField(upload_to="playlists/", blank=False, null=True)
+    is_public = models.BooleanField(choices=Status.choices, default=Status.PUBLIC)
+
+    # Moderator Info
+    time_created = models.DateTimeField(auto_now_add=True)
+    time_updated = models.DateTimeField(auto_now=True)
+
+    # Models Managers
+    objects = models.Manager()
+    public = PlayListPublicManager()
+
+    def __str__(self):
+        return f'{self.name} of {self.owner}'
