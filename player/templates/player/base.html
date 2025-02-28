@@ -43,23 +43,8 @@
     </div>
 
     <div class="sidebar-nav box2">
-        <ul>
-            <li>
-                <a href="library">
-                    <span><i class="fa-solid fa-book"></i></span>
-                    <span class="library">Your Library</span>
-                </a>
-            </li>
-            <li>
-                <div class="sidebar-scroll">
-                    <div class="create-playlist">
-                        <h4>Create your first playlist</h4>
-                        <p>It's easy, we'll help you</p>
-                        <button>Create Playlist</button>
-                    </div>
-                </div>
-            </li>
-        </ul>
+
+        {% include 'player/menu/playlist_section.html' %}
 
         {% include 'player/menu/lower_menu.html' %}
     </div>

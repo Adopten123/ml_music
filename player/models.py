@@ -74,7 +74,7 @@ class TrackPublishedManager(models.Manager): # pylint: disable=R0903
 class Track(models.Model):
     """Class of Music Track"""
 
-    def default_publication_time(self):
+    def default_publication_time():
         """Return time with params 00:00:00"""
         return timezone.localtime().replace(hour=0, minute=0, second=0, microsecond=0)
 
@@ -207,3 +207,6 @@ class Playlist(models.Model):
 
     def __str__(self):
         return f'{self.name} of {self.owner}'
+
+    def get_absolute_url(self):
+        return reverse('playlist_detail', args=[self.slug])

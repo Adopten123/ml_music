@@ -13,6 +13,8 @@ urlpatterns = [
     path('artists/<slug:artist_slug>/<slug:album_slug>', views.show_album, name='show_album'),
     path('search/', views.show_search_page, name='open_search_page'),
     path('search-tracks/', views.search, name='search_tracks'),
+    path('playlist/<slug:slug>/', views.playlist_detail, name='playlist_detail')
+
 ]
 
 if settings.DEBUG:

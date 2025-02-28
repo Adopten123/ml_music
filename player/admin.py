@@ -94,6 +94,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     list_filter = ('is_public', 'owner__username')
     list_per_page = 20
     ordering = ['-time_created', '-name']
+    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'owner__username']
 
     actions = ['set_published', 'set_unreleased']

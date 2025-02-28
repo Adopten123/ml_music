@@ -1,0 +1,62 @@
+{% load static %}
+
+<ul>
+<link rel="stylesheet" href="{% static 'player/css/menu/playlist_section.css' %}">
+    <li>
+        <a href="library">
+            <span><i class="fa-solid fa-book"></i></span>
+            <span class="library">Your Library</span>
+        </a>
+    </li>
+    <li>
+        <div class="sidebar-scroll">
+            {% if user.is_authenticated %}
+                <!-- Плейлисты пользователя -->
+                <div class="playlist-section">
+                    <h4>Your Playlists</h4>
+                    <ul class="playlist-list">
+                        {% for playlist in owned_playlists %}
+                            <li class="playlist-item">
+                                <a href="{{ playlist.get_absolute_url }}">
+                                    <img src="{{ playlist.logo.url }}" alt="{{ playlist.name }}" class="playlist-cover">
+                                    <div class="playlist-info">
+                                        <span class="playlist-name">{{ playlist.name }}</span>
+                                        <span class="playlist-owner">{{ playlist.owner.username }}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        {% empty %}
+                            <p class="empty-message">You haven't created any playlists yet.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Плейлисты, куда добавлен пользователь -->
+                <div class="playlist-section">
+                    <h4>Added to Playlists</h4>
+                    <ul class="playlist-list">
+                        {% for playlist in added_playlists %}
+                            <li class="playlist-item">
+                                <a href="{{ playlist.get_absolute_url }}">
+                                    <img src="{{ playlist.logo.url }}" alt="{{ playlist.name }}" class="playlist-cover">
+                                    <div class="playlist-info">
+                                        <span class="playlist-name">{{ playlist.name }}</span>
+                                        <span class="playlist-owner">{{ playlist.owner.username }}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        {% empty %}
+                            <p class="empty-message">You aren't added to any playlists.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="create-playlist">
+                    <h4>Create your first playlist</h4>
+                    <p>It's easy, we'll help you</p>
+                    <button onclick="window.location.href='{% url 'login' %}'">Create Playlist</button>
+                </div>
+            {% endif %}
+        </div>
+    </li>
+</ul>

@@ -6,7 +6,8 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Prefetch
 
 from . import data_for_tests
-from .models import Artist, Track, Genre, Album
+from .models import Artist, Track, Genre, Album, Playlist
+
 
 @login_required
 def index(request):
@@ -134,3 +135,27 @@ def search(request):
 def page_not_found(request, exception): # pylint: disable=W0613
     """Error Page Views"""
     return HttpResponseNotFound("<h1>Page not found</h1>")
+
+def playlist_detail(request, slug):
+    playlist = get_object_or_404(
+        Playlist.objects
+        .select_related('owner')
+        .prefetch_related(
+            Prefetch(
+                'tracks',
+                queryset=Track.objects
+                .select_related('main_author')
+                .prefetch_related('featured_authors')
+            )
+        ),
+        slug=slug
+    )
+
+    tracks = playlist.tracks.all()
+
+    data = {
+        'playlist': playlist,
+        'tracks_for_column': tracks,
+        'page_obj': data_for_tests.get_page_obj(request, tracks),
+    }
+    return render(request, 'player/playlist_detail.html', data)
