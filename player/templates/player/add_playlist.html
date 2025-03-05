@@ -1,0 +1,86 @@
+{% extends 'player/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'player/css/add_page.css' %}">
+    <div class="playlist-container">
+        <h1 class="playlist-title">{{ title }}</h1>
+
+        <form class="playlist-form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="form-errors">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="form-grid">
+                <!-- Обложка плейлиста -->
+                <div class="cover-upload">
+                    <label class="cover-label">
+                        {{ form.logo }}
+                        <div class="cover-preview">
+                            <img id="cover-preview" src="{% static 'player/images/default-cover.svg' %}"
+                                 alt="Cover preview">
+                            <div class="upload-hover">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor"
+                                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                                </svg>
+                                <span>Загрузить обложку</span>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Поля формы -->
+                <div class="form-fields">
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}">Название плейлиста</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Видимость</label>
+                        <div class="visibility-toggle">
+                            <label class="toggle-switch">
+                                {{ form.is_public }}
+                                <span class="slider round"></span>
+                            </label>
+                            <span class="toggle-label">
+                    {{ form.is_public.help_text }}
+                </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Доступ для друзей</label>
+                        {{ form.added_users }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Треки в плейлисте</label>
+                        <div class="track-search-box">
+                            <input type="text"
+                                   class="track-search-input"
+                                   placeholder="Поиск треков..."
+                                   aria-label="Поиск треков">
+                        </div>
+                        <div class="track-list-container">
+                            {{ form.tracks }}
+                        </div>
+                    </div>
+                    <button type="submit" class="spotify-button">Сохранить плейлист</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'player/js/add_page.js' %}"></script>
+{% endblock %}

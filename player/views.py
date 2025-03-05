@@ -1,11 +1,14 @@
 """Views File"""
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Prefetch
+from django.utils.text import slugify
 
 from . import data_for_tests
+from .forms import PlaylistForm
 from .models import Artist, Track, Genre, Album, Playlist
 
 
@@ -160,3 +163,25 @@ def playlist_detail(request, slug):
         'page_obj': data_for_tests.get_page_obj(request, tracks),
     }
     return render(request, 'player/playlist_detail.html', data)
+
+
+@login_required
+def add_playlist(request):
+    if request.method == 'POST':
+        form = PlaylistForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            playlist = form.save(commit=False)
+            playlist.owner = request.user
+            playlist.save()
+            form.save_m2m()  # Сохраняем M2M поля
+            messages.success(request, 'Плейлист успешно создан!')
+            return redirect('playlist_detail', slug=playlist.slug)
+        else:
+            messages.error(request, 'Исправьте ошибки в форме')
+    else:
+        form = PlaylistForm(user=request.user)
+
+    return render(request, 'player/add_playlist.html', {
+        'form': form,
+        'title': 'Создание плейлиста'
+    })

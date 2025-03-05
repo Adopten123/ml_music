@@ -106,7 +106,7 @@ class Track(models.Model):
     published = TrackPublishedManager()
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name} - {self.main_author}"
 
     class Meta: # pylint: disable=R0903
         """Ordering params"""
@@ -188,7 +188,7 @@ class Playlist(models.Model):
         PUBLIC = 1, "Публичный"
 
     name = models.CharField(max_length=128)
-    slug = models.SlugField(max_length=64, blank=True)
+    slug = models.SlugField(max_length=64, unique=True, blank=True)
 
     owner = models.ForeignKey(PlayerUser, on_delete=models.PROTECT)
     added_users = models.ManyToManyField(PlayerUser, related_name='friends', blank=True)
@@ -211,3 +211,9 @@ class Playlist(models.Model):
     def get_absolute_url(self):
         """return url for playlist page"""
         return reverse('playlist_detail', args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        """Function for making slug"""
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)

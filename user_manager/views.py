@@ -1,13 +1,16 @@
 """Views of User Manager"""
 
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.urls import reverse
+
+from player.models import PlayerUser as User
+from user_manager.models import PasswordReset
+
 
 def is_username_exists(request, username):
     """Function to check if a username exists"""
@@ -91,7 +94,7 @@ def forgot_password_view(request):
         email = request.POST.get('email')
 
         try:
-            user = User.objects.get(email=email)
+            user = PlayerUser.objects.get(email=email)
 
             new_password_reset = PasswordReset(user=user)
             new_password_reset.save()

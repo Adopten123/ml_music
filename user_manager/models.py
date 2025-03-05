@@ -2,8 +2,7 @@
 import uuid
 
 from django.db import models
-from django.contrib.auth.models import User
-
+from player.models import PlayerUser as User
 from ml_music import settings
 
 
