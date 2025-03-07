@@ -1,6 +1,8 @@
 """Module with settings of admin-panel"""
 
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+
 from .models import Artist, Genre, Track, Album, Playlist
 
 #rename admin-panel
@@ -12,14 +14,19 @@ class TrackAdmin(admin.ModelAdmin):
 
     exclude = ['duration', 'play_count']
 
-    list_display = ('id', 'name', 'main_author', 'publication_time', 'is_published')
-    list_display_links = ('id', 'name')
+    list_display = ('track_logo','id', 'name', 'main_author', 'publication_time', 'is_published')
+    list_display_links = ('track_logo', 'id', 'name')
     list_filter = ('is_published', 'genre__name')
     list_per_page = 20
     ordering = ['-publication_time', '-name']
     search_fields = ['name', 'main_author__name']
 
     actions = ['set_published', 'set_unreleased']
+
+    @admin.display(ordering='content')
+    def track_logo(self, track: Track):
+        if track.logo:
+            return mark_safe(f"<img src='{track.logo.url}' width='50px' />")
 
     @admin.action(description="Make published status")
     def set_published(self, request, queryset): # pylint: disable=W0613
@@ -41,8 +48,8 @@ class GenreAdmin(admin.ModelAdmin):
 
 class ArtistAdmin(admin.ModelAdmin):
     """class for changing viewing of artists in admin panel"""
-    list_display = ('id', 'name', 'slug', 'is_confirmed')
-    list_display_links = ('id', 'name', 'slug')
+    list_display = ('artist_logo','id', 'name', 'slug', 'is_confirmed')
+    list_display_links = ('artist_logo','id', 'name', 'slug')
     list_filter = ('is_confirmed', 'genre__name')
     list_per_page = 20
     ordering = ['id', 'name']
@@ -50,6 +57,11 @@ class ArtistAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
     actions = ['set_confirmed', 'set_unconfirmed']
+
+    @admin.display(ordering='content')
+    def artist_logo(self, artist: Artist):
+        if artist.logo:
+            return mark_safe(f"<img src='{artist.logo.url}' width='50px' />")
 
     @admin.action(description="Make confirmed status")
     def set_confirmed(self, request, queryset): # pylint: disable=W0613
@@ -66,8 +78,8 @@ class ArtistAdmin(admin.ModelAdmin):
 class AlbumAdmin(admin.ModelAdmin):
     """class for changing viewing of albums in admin panel"""
     filter_horizontal = ['tracks']
-    list_display = ('id', 'name', 'main_author', 'publication_time', 'is_published')
-    list_display_links = ('id', 'name')
+    list_display = ('album_logo','id', 'name', 'main_author', 'publication_time', 'is_published')
+    list_display_links = ('album_logo','id', 'name')
     list_filter = ('is_published', 'genre__name')
     list_per_page = 20
     ordering = ['-publication_time', '-name']
@@ -75,6 +87,11 @@ class AlbumAdmin(admin.ModelAdmin):
     search_fields = ['name', 'main_author__name']
 
     actions = ['set_published', 'set_unreleased']
+
+    @admin.display(ordering='content')
+    def album_logo(self, album: Album):
+        if album.logo:
+            return mark_safe(f"<img src='{album.logo.url}' width='50px' />")
 
     @admin.action(description="Make published status")
     def set_published(self, request, queryset): # pylint: disable=W0613
@@ -89,8 +106,8 @@ class AlbumAdmin(admin.ModelAdmin):
 class PlaylistAdmin(admin.ModelAdmin):
     """class for changing viewing of playlist in admin panel"""
     filter_horizontal = ['tracks']
-    list_display = ('id', 'name', 'owner', 'time_created', 'is_public')
-    list_display_links = ('id', 'name')
+    list_display = ('playlist_logo','id', 'name', 'owner', 'time_created', 'is_public')
+    list_display_links = ('playlist_logo', 'id', 'name')
     list_filter = ('is_public', 'owner__username')
     list_per_page = 20
     ordering = ['-time_created', '-name']
@@ -98,6 +115,11 @@ class PlaylistAdmin(admin.ModelAdmin):
     search_fields = ['name', 'owner__username']
 
     actions = ['set_published', 'set_unreleased']
+
+    @admin.display(ordering='content')
+    def playlist_logo(self, playlist: Playlist):
+        if playlist.logo:
+            return mark_safe(f"<img src='{playlist.logo.url}' width='50px' />")
 
     @admin.action(description="Make published status")
     def set_published(self, request, queryset):  # pylint: disable=W0613
