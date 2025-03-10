@@ -1,41 +1,22 @@
 """Views File"""
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Prefetch
 from django.utils.text import slugify
+from django.views.generic import TemplateView, ListView
 
 from . import data_for_tests
 from .forms import PlaylistForm
 from .models import Artist, Track, Genre, Album, Playlist
 
-
 @login_required
-def index(request):
-    """Main Page view"""
-
-    # Загружаем жанры с предзагрузкой связанных треков
-    genres_for_index = Genre.objects.prefetch_related(
-        Prefetch(
-            'track_set',
-            queryset=Track.published.select_related('genre', 'main_author'),
-            to_attr='published_tracks'
-        )
-    )
-
-    albums = Album.objects.select_related('main_author').all()
-
-    tracks_by_genre = {genre: genre.published_tracks for genre in genres_for_index}
-
-    data = {
-        'albums': albums,
-        'tracks_by_genre': tracks_by_genre,
-        'page_obj': data_for_tests.
-            get_page_obj(request, Track.published.select_related('main_author', 'genre')),
-    }
-    return render(request, 'player/index.html', data)
+def show_search_page(request):
+    """Search Page view"""
+    return  render(request, 'player/search_page.html')
 
 def genres(request): # pylint: disable=W0613
     """Genres Page view"""
@@ -45,73 +26,140 @@ def genres_by_slug(request, genre_slug): # pylint: disable=W0613
     """Genre Page view"""
     return HttpResponse(f"<h1>Genres page</h1> <p> Genre: {genre_slug} </p>")
 
-@login_required
-def information(request, info_slug):
-    """Information Page view"""
-    title_to_find = data_for_tests.get_title_by_infoslug(info_slug) + ' | ML Music'
+def page_not_found(request, exception): # pylint: disable=W0613
+    """Error Page Views"""
+    return HttpResponseNotFound("<h1>Page not found</h1>")
 
-    data = {
-        'title': title_to_find,
-        'info_slug': info_slug
-    }
-    return render(request, f"player/information/{info_slug}.html", data)
+class PlayerHome(LoginRequiredMixin, ListView):
+    """Player home view class"""
+    template_name = 'player/index.html'
+    context_object_name = 'tracks'
 
-@login_required
-def artist_card(request, artist_slug):
-    """Artists Page view"""
-    artist = get_object_or_404(Artist, slug=artist_slug)
+    def get_queryset(self):
+        return Track.published.select_related('main_author', 'genre')
 
-    all_author_tracks = Track.published.filter(
-        Q(main_author=artist) | Q(featured_authors=artist)
-    ).distinct().select_related('main_author', 'genre').prefetch_related('featured_authors') \
-     .order_by('-publication_time')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    top5_tracks = all_author_tracks.order_by('-play_count')[:5]
-
-    all_author_albums = Album.objects.filter(main_author=artist).prefetch_related('tracks')
-
-    data = {
-        'artist': artist,
-        'title': artist.name + ' | ML Music',
-        'tracks_for_column': top5_tracks,
-        'all_author_tracks': all_author_tracks,
-        'all_author_albums': all_author_albums,
-        'page_obj': data_for_tests.get_page_obj(request, all_author_tracks),
-    }
-
-    return render(request, 'player/artist_card.html', data)
-
-@login_required
-def show_album(request, artist_slug, album_slug):
-    """Album Page view"""
-    album = get_object_or_404(
-        Album.objects.select_related('main_author').prefetch_related(
+        genres_for_index = Genre.objects.prefetch_related(
             Prefetch(
-                'tracks',
-                queryset=Track.objects.select_related('main_author', 'genre')
-                    .prefetch_related('featured_authors')
-                    .order_by('id'),
-                to_attr='prefetched_tracks'
+                'track_set',
+                queryset=Track.published.select_related('genre', 'main_author'),
+                to_attr='published_tracks'
             )
-        ),
-        main_author__slug=artist_slug,
-        slug=album_slug
-    )
+        )
+        context['albums'] = Album.objects.select_related('main_author').all()
+        context['tracks_by_genre'] = {genre: genre.published_tracks for genre in genres_for_index}
+        context['page_obj'] = data_for_tests.get_page_obj(
+            self.request,
+            Track.published.select_related('main_author', 'genre')
+        )
 
-    tracks = album.prefetched_tracks
+        return context
 
-    data = {
-        'album': album,
-        'title': album.name + ' | ML Music',
-        'tracks_for_column': tracks,
-        'page_obj': data_for_tests.get_page_obj(request, tracks),
-    }
-    return render(request, 'player/album_page.html', data)
+class InformationPage(LoginRequiredMixin, TemplateView):
+    template_name = "player/base.html"
 
-@login_required
-def show_search_page(request):
-    """Search Page view"""
-    return  render(request, 'player/search_page.html')
+    def get_template_names(self):
+        """Dynamic taking info_slug"""
+        return [f"player/information/{self.kwargs['info_slug']}.html"]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        info_slug = self.kwargs['info_slug']
+
+        base_title = data_for_tests.get_title_by_infoslug(info_slug)
+        context['title'] = f"{base_title} | ML Music"
+        context['info_slug'] = info_slug
+
+        return context
+
+
+class ArtistPage(LoginRequiredMixin, ListView):
+    template_name = 'player/artist_card.html'
+    context_object_name = 'all_author_tracks'
+
+    def get_queryset(self):
+        self.artist = get_object_or_404(Artist, slug=self.kwargs['artist_slug'])
+        return (Track.published.filter(
+            Q(main_author=self.artist) | Q(featured_authors=self.artist)
+        ).distinct().select_related('main_author', 'genre')
+          .prefetch_related('featured_authors')
+            .order_by('-publication_time'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['tracks_for_column'] = self.get_queryset().order_by('-play_count')[:5]
+
+        context['all_author_albums'] = Album.objects.filter(
+            main_author=self.artist
+        ).prefetch_related('tracks')
+
+        context.update({
+            'artist': self.artist,
+            'title': f"{self.artist.name} | ML Music",
+            'page_obj': data_for_tests.get_page_obj(self.request, self.get_queryset()),
+        })
+
+        return context
+
+class AlbumPage(LoginRequiredMixin, ListView):
+    template_name = 'player/album_page.html'
+    context_object_name = 'tracks_for_column'
+
+    def get_queryset(self):
+        self.album = get_object_or_404(
+            Album.objects.select_related('main_author').prefetch_related(
+                Prefetch(
+                    'tracks',
+                    queryset=Track.objects.select_related('main_author', 'genre')
+                        .prefetch_related('featured_authors')
+                        .order_by('id'),
+                    to_attr='prefetched_tracks'
+                )
+            ),
+            main_author__slug=self.kwargs['artist_slug'],
+            slug=self.kwargs['album_slug']
+        )
+        return self.album.prefetched_tracks
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'album': self.album,
+            'title': f"{self.album.name} | ML Music",
+            'page_obj': data_for_tests
+                            .get_page_obj(self.request, self.get_queryset()),
+        })
+        return context
+
+class PlaylistPage(LoginRequiredMixin, ListView):
+    template_name = 'player/playlist_detail.html'
+    context_object_name = 'tracks_for_column'
+
+    def get_queryset(self):
+        self.playlist = get_object_or_404(
+            Playlist.objects
+            .select_related('owner')
+            .prefetch_related(
+                Prefetch(
+                    'tracks',
+                    queryset=Track.objects
+                        .select_related('main_author')
+                        .prefetch_related('featured_authors')
+                )
+            ),
+            slug=self.kwargs['slug']
+        )
+        return self.playlist.tracks.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['playlist'] = self.playlist
+        context['page_obj'] = (data_for_tests
+                                    .get_page_obj(self.request, self.get_queryset()))
+        return context
 
 @login_required
 def search(request):
@@ -133,36 +181,6 @@ def search(request):
     }
 
     return render(request, 'player/search_page.html', context)
-
-
-def page_not_found(request, exception): # pylint: disable=W0613
-    """Error Page Views"""
-    return HttpResponseNotFound("<h1>Page not found</h1>")
-
-def playlist_detail(request, slug):
-    """View for playlist detail"""
-    playlist = get_object_or_404(
-        Playlist.objects
-        .select_related('owner')
-        .prefetch_related(
-            Prefetch(
-                'tracks',
-                queryset=Track.objects
-                .select_related('main_author')
-                .prefetch_related('featured_authors')
-            )
-        ),
-        slug=slug
-    )
-
-    tracks = playlist.tracks.all()
-
-    data = {
-        'playlist': playlist,
-        'tracks_for_column': tracks,
-        'page_obj': data_for_tests.get_page_obj(request, tracks),
-    }
-    return render(request, 'player/playlist_detail.html', data)
 
 
 @login_required

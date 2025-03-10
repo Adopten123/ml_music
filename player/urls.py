@@ -5,15 +5,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='main'),
+    path('', views.PlayerHome.as_view(), name='main'),
     path('genres/<slug:genre_slug>/', views.genres, name='main_genres'),
     path('genres/<slug:genre_slug>/', views.genres_by_slug, name='main_genres_by_slug'),
-    path('information/<slug:info_slug>/', views.information, name='info'),
-    path('artists/<slug:artist_slug>/', views.artist_card, name='artist'),
-    path('artists/<slug:artist_slug>/<slug:album_slug>', views.show_album, name='show_album'),
+    path('information/<slug:info_slug>/', views.InformationPage.as_view(), name='info'),
+    path('artists/<slug:artist_slug>/', views.ArtistPage.as_view(), name='artist'),
+    path('artists/<slug:artist_slug>/<slug:album_slug>', views.AlbumPage.as_view(), name='show_album'),
     path('search/', views.show_search_page, name='open_search_page'),
     path('search-tracks/', views.search, name='search_tracks'),
-    path('playlist/<slug:slug>/', views.playlist_detail, name='playlist_detail'),
+    path('playlist/<slug:slug>/', views.PlaylistPage.as_view(), name='playlist_detail'),
     path('add_playlist/', views.add_playlist, name='add_playlist'),
 ]
 
