@@ -24,6 +24,11 @@
                 <!-- Обложка плейлиста -->
                 <div class="cover-upload">
                     <label class="cover-label">
+
+                        {% if current_logo %}
+                            <img src="{{ current_logo }}" alt="Current playlist cover" style="max-width: 200px;">
+                        {% endif %}
+
                         {{ form.logo }}
                         <div class="cover-preview">
                             <img id="cover-preview" src="{% static 'player/images/default-cover.svg' %}"
@@ -54,8 +59,8 @@
                                 <span class="slider round"></span>
                             </label>
                             <span class="toggle-label">
-                    {{ form.is_public.help_text }}
-                </span>
+            {{ form.is_public.help_text }}
+        </span>
                         </div>
                     </div>
 

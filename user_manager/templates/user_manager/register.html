@@ -11,16 +11,6 @@
     <div class="center">
       <h1>Register</h1>
 
-      {% if messages %}
-          {% for message in messages %}
-              {% if message.tags == 'error' %}
-                  <center><h4 style="color: firebrick;">{{message}}</h4></center>
-              {% else %}
-                  <center><h4 style="color: dodgerblue;">{{message}}</h4></center>
-              {% endif %}
-          {% endfor %}
-      {% endif %}
-
       <form method="POST">
 
         {% csrf_token %}

@@ -195,7 +195,8 @@ class Playlist(models.Model):
     tracks = models.ManyToManyField(Track, related_name='playlists', blank=True)
 
     logo = models.ImageField(upload_to="playlists/", blank=False, null=True)
-    is_public = models.BooleanField(choices=Status.choices, default=Status.PUBLIC)
+    is_public = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices))
+                                    , default=Status.PUBLIC)
 
     # Moderator Info
     time_created = models.DateTimeField(auto_now_add=True)
