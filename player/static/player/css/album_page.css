@@ -125,7 +125,7 @@ body {
     transform: scale(1.1);
 }
 
-.playlist-info a{
+.playlist-info a {
     all: unset;
     cursor: pointer;
 }
@@ -134,7 +134,7 @@ body {
     text-decoration: underline;
 }
 
-.track-info a{
+.track-info a {
     all: unset;
     cursor: pointer;
 }

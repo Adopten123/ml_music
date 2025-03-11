@@ -1,0 +1,47 @@
+/* buttons.css */
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 12px;
+    cursor: pointer;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+
+.btn-action.btn-delete {
+    background: rgba(255, 255, 255, 0);
+    box-shadow: 0 2px 6px rgba(255, 82, 82, 0);
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0);
+    color: white;
+}
+
+.btn-action.btn-delete:hover {
+    background: rgba(255, 23, 68, 0);
+    box-shadow: 0 4px 12px rgba(255, 82, 82, 0.4);
+}
+
+.btn-action i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.playlist-actions {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}

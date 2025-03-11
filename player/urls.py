@@ -14,7 +14,9 @@ urlpatterns = [
     path('search/', views.show_search_page, name='open_search_page'),
     path('search-tracks/', views.search, name='search_tracks'),
     path('playlist/<slug:slug>/', views.PlaylistPage.as_view(), name='playlist_detail'),
-    path('add_playlist/', views.add_playlist, name='add_playlist'),
+    path('add_playlist/', views.AddPlaylistView.as_view(), name='add_playlist'),
+    path('update_playlist/<slug:slug>/', views.UpdatePlaylistView.as_view(), name='update_playlist'),
+    path('playlist/delete/<slug:slug>/', views.DeletePlaylistView.as_view(), name='delete_playlist'),
 ]
 
 if settings.DEBUG:

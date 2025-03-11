@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseForbidden
 from django.db.models import Prefetch
+from django.urls import reverse_lazy
 from django.utils.text import slugify
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView
 
 from . import data_for_tests
 from .forms import PlaylistForm
@@ -159,6 +160,7 @@ class PlaylistPage(LoginRequiredMixin, ListView):
         context['playlist'] = self.playlist
         context['page_obj'] = (data_for_tests
                                     .get_page_obj(self.request, self.get_queryset()))
+        context['title'] = f"{self.playlist.name} | ML Music"
         return context
 
 @login_required
@@ -182,24 +184,90 @@ def search(request):
 
     return render(request, 'player/search_page.html', context)
 
+class AddPlaylistView(LoginRequiredMixin, CreateView):
+    model = Playlist
+    form_class = PlaylistForm
+    template_name = 'player/add_playlist.html'
 
-@login_required
-def add_playlist(request):
-    if request.method == 'POST':
-        form = PlaylistForm(request.POST, request.FILES, user=request.user)
-        if form.is_valid():
-            playlist = form.save(commit=False)
-            playlist.owner = request.user
-            playlist.save()
-            form.save_m2m()  # Сохраняем M2M поля
-            messages.success(request, 'Плейлист успешно создан!')
-            return redirect('playlist_detail', slug=playlist.slug)
-        else:
-            messages.error(request, 'Исправьте ошибки в форме')
-    else:
-        form = PlaylistForm(user=request.user)
+    def get_form_kwargs(self):
+        """Adding a user in the form of arguments"""
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
-    return render(request, 'player/add_playlist.html', {
-        'form': form,
-        'title': 'Создание плейлиста'
-    })
+    def form_valid(self, form):
+        """Processing a valid form"""
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        form.save_m2m()
+        messages.success(self.request, 'Плейлист успешно создан!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        """Processing invalid form"""
+        messages.error(self.request, 'Исправьте ошибки в форме')
+        return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('playlist_detail', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        """Adding a title to the context"""
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание плейлиста'
+        return context
+
+class UpdatePlaylistView(LoginRequiredMixin, UpdateView):
+    model = Playlist
+    form_class = PlaylistForm
+    template_name = 'player/add_playlist.html'
+
+    def get_form_kwargs(self):
+        """Adding a user in the form of arguments"""
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        """Processing a valid form"""
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        form.save_m2m()
+        messages.success(self.request, 'Плейлист успешно создан!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        """Processing invalid form"""
+        messages.error(self.request, 'Исправьте ошибки в форме')
+        return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('playlist_detail', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        """Adding a title to the context"""
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание плейлиста'
+        return context
+
+
+class DeletePlaylistView(LoginRequiredMixin, DeleteView):
+    model = Playlist
+    success_url = reverse_lazy('main')  # Укажите целевой URL после удаления
+
+    def get(self, request, *args, **kwargs):
+        """Блокируем GET-запросы для безопасности"""
+        return HttpResponseForbidden("Доступ запрещен")
+
+    def delete(self, request, *args, **kwargs):
+        """Обработка DELETE-запроса"""
+        self.object = self.get_object()
+        if self.object.owner != request.user:
+            return HttpResponseForbidden("Вы не можете удалить этот плейлист")
+
+        success_url = self.get_success_url()
+        self.object.delete()
+        messages.success(request, 'Плейлист успешно удален')
+        return HttpResponseRedirect(success_url)
