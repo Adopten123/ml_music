@@ -3,8 +3,10 @@ from django import forms
 from .models import Playlist, PlayerUser
 
 
-class PlaylistForm(forms.ModelForm):
-    class Meta:
+class PlaylistForm(forms.ModelForm): # pylint: disable=R0903
+    """Playlist Form"""
+    class Meta: # pylint: disable=R0903
+        """Meta Class"""
         model = Playlist
         fields = ['name', 'logo', 'is_public', 'added_users', 'tracks']
         widgets = {
@@ -36,9 +38,11 @@ class PlaylistForm(forms.ModelForm):
             self.instance.owner = user
 
     def clean_name(self):
+        """Checking unique name"""
         name = self.cleaned_data['name']
         if self.instance.pk:
-            if Playlist.objects.filter(name=name, owner=self.instance.owner).exclude(pk=self.instance.pk).exists():
+            if (Playlist.objects.filter(name=name, owner=self.instance.owner)
+                    .exclude(pk=self.instance.pk).exists()):
                 raise forms.ValidationError("У вас уже есть плейлист с таким названием")
         else:
             if Playlist.objects.filter(name=name, owner=self.instance.owner).exists():

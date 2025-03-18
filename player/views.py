@@ -3,12 +3,23 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseForbidden
+from django.shortcuts import render, get_object_or_404
+from django.http import  (
+    HttpResponse,
+    HttpResponseNotFound,
+    HttpResponseRedirect,
+    HttpResponseForbidden
+)
 from django.db.models import Prefetch
 from django.urls import reverse_lazy
-from django.utils.text import slugify
-from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView
+
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 
 from . import data_for_tests
 from .forms import PlaylistForm
@@ -31,7 +42,7 @@ def page_not_found(request, exception): # pylint: disable=W0613
     """Error Page Views"""
     return HttpResponseNotFound("<h1>Page not found</h1>")
 
-class PlayerHome(LoginRequiredMixin, ListView):
+class PlayerHome(LoginRequiredMixin, ListView): # pylint: disable=R0901
     """Player home view class"""
     template_name = 'player/index.html'
     context_object_name = 'tracks'
@@ -59,6 +70,7 @@ class PlayerHome(LoginRequiredMixin, ListView):
         return context
 
 class InformationPage(LoginRequiredMixin, TemplateView):
+    """Information Page view"""
     template_name = "player/base.html"
 
     def get_template_names(self):
@@ -76,12 +88,13 @@ class InformationPage(LoginRequiredMixin, TemplateView):
         return context
 
 
-class ArtistPage(LoginRequiredMixin, ListView):
+class ArtistPage(LoginRequiredMixin, ListView): # pylint: disable=R0901
+    """Artist Page view"""
     template_name = 'player/artist_card.html'
     context_object_name = 'all_author_tracks'
 
     def get_queryset(self):
-        self.artist = get_object_or_404(Artist, slug=self.kwargs['artist_slug'])
+        self.artist = get_object_or_404(Artist, slug=self.kwargs['artist_slug']) # pylint: disable=W0201
         return (Track.published.filter(
             Q(main_author=self.artist) | Q(featured_authors=self.artist)
         ).distinct().select_related('main_author', 'genre')
@@ -105,12 +118,13 @@ class ArtistPage(LoginRequiredMixin, ListView):
 
         return context
 
-class AlbumPage(LoginRequiredMixin, ListView):
+class AlbumPage(LoginRequiredMixin, ListView): # pylint: disable=R0901
+    """Album Page view"""
     template_name = 'player/album_page.html'
     context_object_name = 'tracks_for_column'
 
     def get_queryset(self):
-        self.album = get_object_or_404(
+        self.album = get_object_or_404( # pylint: disable=W0201
             Album.objects.select_related('main_author').prefetch_related(
                 Prefetch(
                     'tracks',
@@ -135,12 +149,13 @@ class AlbumPage(LoginRequiredMixin, ListView):
         })
         return context
 
-class PlaylistPage(LoginRequiredMixin, ListView):
+class PlaylistPage(LoginRequiredMixin, ListView): # pylint: disable=R0901
+    """Playlist Page view"""
     template_name = 'player/playlist_detail.html'
     context_object_name = 'tracks_for_column'
 
     def get_queryset(self):
-        self.playlist = get_object_or_404(
+        self.playlist = get_object_or_404( # pylint: disable=W0201
             Playlist.objects
             .select_related('owner')
             .prefetch_related(
@@ -163,7 +178,8 @@ class PlaylistPage(LoginRequiredMixin, ListView):
         context['title'] = f"{self.playlist.name} | ML Music"
         return context
 
-class AddPlaylistView(LoginRequiredMixin, CreateView):
+class AddPlaylistView(LoginRequiredMixin, CreateView): # pylint: disable=R0901
+    """Add Playlist view"""
     model = Playlist
     form_class = PlaylistForm
     template_name = 'player/add_playlist.html'
@@ -176,7 +192,7 @@ class AddPlaylistView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         """Processing a valid form"""
-        self.object = form.save(commit=False)
+        self.object = form.save(commit=False) # pylint: disable=W0201
         self.object.owner = self.request.user
         self.object.save()
         form.save_m2m()
@@ -198,7 +214,8 @@ class AddPlaylistView(LoginRequiredMixin, CreateView):
         return context
 
 
-class UpdatePlaylistView(LoginRequiredMixin, UpdateView):
+class UpdatePlaylistView(LoginRequiredMixin, UpdateView): # pylint: disable=R0901
+    """Update Playlist view"""
     model = Playlist
     form_class = PlaylistForm
     template_name = 'player/add_playlist.html'
@@ -234,7 +251,8 @@ class UpdatePlaylistView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('playlist_detail', kwargs={'slug': self.object.slug})
 
 
-class DeletePlaylistView(LoginRequiredMixin, DeleteView):
+class DeletePlaylistView(LoginRequiredMixin, DeleteView): # pylint: disable=R0901
+    """Delete playlist view"""
     model = Playlist
     success_url = reverse_lazy('main')
 
@@ -244,7 +262,7 @@ class DeletePlaylistView(LoginRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         """Processing DELETE request"""
-        self.object = self.get_object()
+        self.object = self.get_object() # pylint: disable=W0201
         if self.object.owner != request.user:
             return HttpResponseForbidden("You cannot delete this playlist")
 

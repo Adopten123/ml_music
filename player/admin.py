@@ -25,8 +25,10 @@ class TrackAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='content')
     def track_logo(self, track: Track):
+        """Display for viewing track logo"""
         if track.logo:
             return mark_safe(f"<img src='{track.logo.url}' width='50px' />")
+        return mark_safe("")
 
     @admin.action(description="Make published status")
     def set_published(self, request, queryset): # pylint: disable=W0613
@@ -60,8 +62,10 @@ class ArtistAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='content')
     def artist_logo(self, artist: Artist):
+        """Display for viewing artist logo"""
         if artist.logo:
             return mark_safe(f"<img src='{artist.logo.url}' width='50px' />")
+        return mark_safe("")
 
     @admin.action(description="Make confirmed status")
     def set_confirmed(self, request, queryset): # pylint: disable=W0613
@@ -90,8 +94,10 @@ class AlbumAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='content')
     def album_logo(self, album: Album):
+        """Display for viewing album logo"""
         if album.logo:
             return mark_safe(f"<img src='{album.logo.url}' width='50px' />")
+        return mark_safe("")
 
     @admin.action(description="Make published status")
     def set_published(self, request, queryset): # pylint: disable=W0613
@@ -118,8 +124,10 @@ class PlaylistAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='content')
     def playlist_logo(self, playlist: Playlist):
+        """Display for viewing playlist logo"""
         if playlist.logo:
             return mark_safe(f"<img src='{playlist.logo.url}' width='50px' />")
+        return mark_safe("")
 
     @admin.action(description="Make published status")
     def set_published(self, request, queryset):  # pylint: disable=W0613

@@ -1,7 +1,7 @@
 """Urls of User_Manager"""
-from django.urls import path
+from django.urls import path # pylint: disable=R0801
 
-from . import views
+from . import views # pylint: disable=R0801
 
 urlpatterns = [
     path('registration/', views.register_view, name='register'),

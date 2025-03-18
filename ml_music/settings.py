@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-import ml_music.secrets as secrets
+
+from . import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -138,8 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'player.PlayerUser'
 
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_PORT=465
-EMAIL_USE_SSL=True
-EMAIL_HOST_USER="sanhamster820@gmail.com"
-EMAIL_HOST_PASSWORD="yfan fvop fuhx gjdv"
+EMAIL_HOST="smtp.gmail.com" # pylint: disable=R0801
+EMAIL_PORT=465 # pylint: disable=R0801
+EMAIL_USE_SSL=True # pylint: disable=R0801
+EMAIL_HOST_USER="sanhamster820@gmail.com" # pylint: disable=R0801
+EMAIL_HOST_PASSWORD="yfan fvop fuhx gjdv" # pylint: disable=R0801
