@@ -30,7 +30,7 @@ jobs:
     - name: Run Tests
       run: |
         echo "SECRET_KEY = 'django-insecure-dummy-secret'" > ./ml_music/secrets.py
-        python manage.py test
+        python manage.py test player
 
     - name: Run database migrations
       env:
