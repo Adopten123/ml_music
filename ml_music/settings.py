@@ -27,7 +27,7 @@ SECRET_KEY = secrets.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '45.67.59.245', 'www.ml-music.ru', 'ml-music.ru', 'ml-music.ru:8000']
+ALLOWED_HOSTS = ['ml-music.ru', '127.0.0.1', '45.67.59.245', 'www.ml-music.ru']
 INSTALLED_APPS = []
 
 INTERNAL_IPS = ["127.0.0.1",]
