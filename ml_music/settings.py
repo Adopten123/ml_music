@@ -141,8 +141,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'player.PlayerUser'
 
-EMAIL_HOST="smtp.gmail.com" # pylint: disable=R0801
-EMAIL_PORT=465 # pylint: disable=R0801
-EMAIL_USE_SSL=True # pylint: disable=R0801
-EMAIL_HOST_USER="sanhamster820@gmail.com" # pylint: disable=R0801
-EMAIL_HOST_PASSWORD="yfan fvop fuhx gjdv" # pylint: disable=R0801
+
